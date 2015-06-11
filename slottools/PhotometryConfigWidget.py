@@ -43,6 +43,10 @@ import pyfits
 import numpy as np
 
 # Gui library imports
+try:
+    from PyQt4.QtCore import QString
+except ImportError:
+    QString = str
 from PyQt4 import QtGui, QtCore
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -205,7 +209,7 @@ class PhotometryConfigWidget(QtGui.QWidget):
             for key in self.parameters:
                 # Add signal map entry
                 self.drawMapper.setMapping(self.input[object][key],
-                    QtCore.QString(object+','+key))
+                    QString(object+','+key))
 
                 # Connect to signal mapper
                 self.connect(self.input[object][key], QtCore.SIGNAL('textChanged(QString)'), self.drawMapper, QtCore.SLOT('map()'))
@@ -222,7 +226,7 @@ class PhotometryConfigWidget(QtGui.QWidget):
             for key in self.buttons:
                 # Add signal map entry
                 self.captureMapper.setMapping(self.capture[object][key],
-                    QtCore.QString(object+','+key))
+                    QString(object+','+key))
 
                 # Connect to signal mapper
                 self.connect(self.capture[object][key], QtCore.SIGNAL('clicked()'), self.captureMapper, QtCore.SLOT('map()'))

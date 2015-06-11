@@ -50,7 +50,6 @@
 import os
 from pyraf import iraf
 import pyfits
-import string
 import saltsafeio
 from salterror import SaltError, SaltIOError
 
@@ -234,19 +233,19 @@ def instrumid(struct,file=''):
     keyslot = ''
     try:
         instrume = struct[0].header['INSTRUME']
-        if (string.join(instrume.split(),"") == 'RSS' or string.join(instrume.split(),"") == 'PFIS'):
+        if instrume in ('RSS', 'PFIS'):
             keyprep = 'PPREPARE'
             keygain = 'PGAIN'
             keybias = 'PBIAS'
             keyxtalk = 'PXTALK'
             keyslot = 'PSLOT'
-        elif (string.join(instrume.split(),"") == 'SALTICAM'):
+        elif instrume == 'SALTICAM':
             keyprep = 'SPREPARE'
             keygain = 'SGAIN'
             keybias = 'SBIAS'
             keyxtalk = 'SXTALK'
             keyslot = 'SSLOT'
-        elif (string.join(instrume.split(),"") == 'HRS'):
+        elif instrume == 'HRS':
             keyprep = 'HPREPARE'
             keygain = 'HGAIN'
             keybias = 'HBIAS'

@@ -34,7 +34,6 @@ import time, datetime
 from pyraf import iraf
 from math import *
 import numpy as np
-from string import zfill
 import calendar
 
 def datetime2julian(date):
@@ -191,13 +190,10 @@ def numberofdays(date):
 
 def getnextdate(date):
    """Give a date in YYYYMMDD format, it will supply the next YYYYMMDD date"""
-   day,month,year=breakdate(str(date))
+   day, month, year = breakdate( str(date) )
    tdate = datetime.datetime(year, month, day)
-   tdate=tdate+datetime.timedelta(1)
-   year=zfill(tdate.year, 4)
-   month=zfill(tdate.month, 2)
-   day=zfill(tdate.day, 2)
-   return  year+month+day
+   tdate = tdate + datetime.timedelta(1)
+   return '{:04}{:02}{:02}'.format( tdate.year, tdate.month, tdate.day )
 
 
 
@@ -217,7 +213,7 @@ def numLeapSeconds(year):
     elif 2009<=year:
         leapSec=34.0
     elif year<1999:
-        print("Invalid time.  Please enter a date post-1999 for accurate leap year calculations.")
+        print( "Invalid time.  Please enter a date post-1999 for accurate leap year calculations." )
     
     return leapSec
 # -----------------------------------------------
