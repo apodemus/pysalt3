@@ -37,7 +37,7 @@ TODO--
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 from pyraf import iraf
 import saltsafekey as saltkey
@@ -134,7 +134,7 @@ def findneareststar(array, xc, yc, rc, std, dsig, cpix, naxis1, naxis2):
     obj_labels, obj_num = nd.label(mask)
     if obj_num<1: return fx,fy
 
-    coolist=nd.center_of_mass(array,obj_labels,range(obj_num))
+    coolist=nd.center_of_mass(array,obj_labels,list(range(obj_num)))
 
     #find the closest coordinate to the previous coordinate
     if obj_num>1:
@@ -590,7 +590,7 @@ def readsrcfile(srcfile):
     #try loading the region file
     try:
         region=np.round(np.loadtxt(srcfile))
-    except Exception, e:
+    except Exception as e:
         msg='SLOTTOOLs--ERROR:  Unable to load array from %s' % srcfile
         raise SaltIOError(msg)
 
@@ -624,7 +624,7 @@ def readsrcfile(srcfile):
         #set the background type
         if len(region[tindex])==7:  tgt_btype='annulus'
         if len(region[cindex])==7:  cmp_btype='annulus'
-        print tgt_btype, cmp_btype
+        print(tgt_btype, cmp_btype)
         # Check if selected background mode matches defined regions
         valid=True
         if (tgt_btype=='region' or cmp_btype=='region') and region.shape[1]<9:
@@ -672,7 +672,7 @@ def readsrcfile(srcfile):
             br2['comparison']=[np.max((int(region[i][7]),int(region[i][5]))),
                            np.max((int(region[i][8]),int(region[i][6])))]
 
-    except Exception, e:
+    except Exception as e:
         msg='Error processing region definition file because %s'%e
         raise SaltIOError(msg)
 
@@ -692,7 +692,7 @@ def readlcfile(lcfile):
     
     try:
         id, time, ratio, rerr, tx, ty, tflux, terr, cx, cy, cflux, cerr=np.loadtxt(lcfile, unpack=True)
-    except Exception, e:
+    except Exception as e:
         msg='Error processing light curver file because %s' % e
         raise SaltIOError(msg)
 

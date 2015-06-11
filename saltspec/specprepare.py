@@ -13,7 +13,7 @@ a variance from to the data
 
 """
 
-from __future__ import with_statement
+
 
 
 from pyraf import iraf

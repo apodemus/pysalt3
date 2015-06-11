@@ -45,7 +45,7 @@ handled in a PyQt4 friendly manner
 """
 
 # Ensure Python 2.5 compatibility
-from __future__ import with_statement
+
 
 # General imports
 import os, sys, time
@@ -263,7 +263,7 @@ class SlotViewWindow(QtGui.QMainWindow):
                self.ty[i]=self.ty[i-1]-dy
            self.redophot(i)
            i = i+1
-       print 'Stopped at', i
+       print('Stopped at', i)
        self.updatepage()
 
 
@@ -539,12 +539,12 @@ class SlotViewWindow(QtGui.QMainWindow):
     reset button-Reset the light curve plot
     Middle Click-Display image corresponding to this time
         """
-        print helpmessage
+        print(helpmessage)
         return
 
    def stop(self):
         self.stopplay=False
-        print self.stopplay
+        print(self.stopplay)
 
 
    def playone(self):

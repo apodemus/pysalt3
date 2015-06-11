@@ -41,9 +41,9 @@ OPTIONS are as follows, arguments are compulsory for both long and short forms:
 
 # import required modules
 
-import urllib2              # reading URLs
+import urllib.request, urllib.error, urllib.parse              # reading URLs
 from xml.dom import minidom # XML parsing
-import csv, StringIO        # CSV parsing
+import csv, io        # CSV parsing
 from numpy import *         # array
 import sys, getopt                  # command line switches
 import warnings
@@ -65,7 +65,7 @@ class BadInput(Exception): pass # incorrect input
 # define helper functions
 
 def usage():
-    print __doc__
+    print(__doc__)
     raise SystemExit(2)        # 2 is the UNIX code for bad command line input apparently
 
 def isDecimal(string):
@@ -98,7 +98,7 @@ def checkInput(targetRA, targetDec, imfilter, instrument, targetRadius, maxRadiu
     if isDecimal(targetDec):
         # dec is decimal
         if isDecimal(targetRA)==False:  # check RA in same format
-            raise BadInput, 'RA and dec appear to be in different formats'
+            raise BadInput('RA and dec appear to be in different formats')
         if targetDec>0: 
            targetDec='+'+dec2sex(float(targetDec))
         else:
@@ -108,26 +108,26 @@ def checkInput(targetRA, targetDec, imfilter, instrument, targetRadius, maxRadiu
         # RA is in decimal, but dec wasn't
         # pretty sure there are no valid target names which are decimals...
         # need to check this as decimals pass as valid sexa!
-        raise BadInput, 'RA and dec appear to be in different formats'
+        raise BadInput('RA and dec appear to be in different formats')
     elif checkdms(targetDec) == True:
         # target already colon-seperated value
         # couldn't check this first as this function returns True
         # for decimals (for some reason), but False if space seperated sexa
         if checkdms(targetRA) == False:   # check RA in same format
-            raise BadInput, 'RA and dec appear to be in different formats'
+            raise BadInput('RA and dec appear to be in different formats')
         pass    # both already in correct format
     elif checkdms(targetDec.replace(' ',':')) == True:
         # is a valid space seperated sexa, convert to colon seperated
         if (checkdmsStr(targetRA.replace(' ',':')) == False or
             (targetRA.replace(' ',':')==targetRA)):
             # check RA works colon seperated and wasn't to start with
-            raise BadInput, 'RA and dec appear to be in different formats'
+            raise BadInput('RA and dec appear to be in different formats')
         
         targetDec=targetDec.replace(' ',':')
         targetRA=targetRA.replace(' ',':')
     else:
         # dec isn't decimal, or space/colon seperated sexa, or blank
-        raise BadInput, 'Format of declination not recognised, was given: '+str(targetDec)
+        raise BadInput('Format of declination not recognised, was given: '+str(targetDec))
 
     # convert filters to those in the GSC
     if imfilter == "":
@@ -151,7 +151,7 @@ def checkInput(targetRA, targetDec, imfilter, instrument, targetRadius, maxRadiu
         warnings.warn('Specified ' + imfilter + ' filter, closest GSC band is photographic N')
         imfilter = 'N'
     else:
-        raise BadInput, "Filter '%s' not recognised" % str(imfilter)
+        raise BadInput("Filter '%s' not recognised" % str(imfilter))
 
     # check instrument input
     instrument = instrument.lower()
@@ -167,7 +167,7 @@ def checkInput(targetRA, targetDec, imfilter, instrument, targetRadius, maxRadiu
         warnings.warn('Selected HRS; HRS values not yet validated')
         instrument = 'hrs'
     else:
-        raise BadInput, 'Instrument "' + str(instrument) + '" not recognised'
+        raise BadInput('Instrument "' + str(instrument) + '" not recognised')
 
     # check radius
     if targetRadius == '':
@@ -176,9 +176,9 @@ def checkInput(targetRA, targetDec, imfilter, instrument, targetRadius, maxRadiu
     elif 0 < targetRadius < maxRadius:
         pass
     elif targetRadius > maxRadius:
-        raise BadInput, 'Target radius '+str(targetRadius)+' arcsec is larger than the science FoV'
+        raise BadInput('Target radius '+str(targetRadius)+' arcsec is larger than the science FoV')
     else:
-        raise BadInput, 'Target radius of ' + str(targetRadius) + 'arcsec is invalid'
+        raise BadInput('Target radius of ' + str(targetRadius) + 'arcsec is invalid')
 
     return (targetRA, targetDec, imfilter, instrument, targetRadius)
 
@@ -187,13 +187,13 @@ def checkInput(targetRA, targetDec, imfilter, instrument, targetRadius, maxRadiu
 def queryUrl(url):
     "accesses the input url and returns the response"
 
-    request = urllib2.Request(url)
-    opener = urllib2.build_opener()
+    request = urllib.request.Request(url)
+    opener = urllib.request.build_opener()
     request.add_header('User-Agent', 'SALT guide star finder/'+ __version__ +' www.salt.ac.za')
     try:
         data = opener.open(request).read()
     except:
-        raise GuideStarError, "Could not connect to VizieR. Please check your internet connection"
+        raise GuideStarError("Could not connect to VizieR. Please check your internet connection")
     return data
 
 def constructVizUrl(targetRA, targetDec, min_r, max_r, imfilter, min_mag, max_mag):
@@ -243,7 +243,7 @@ def parseVizResponse(response):
             id = element.getAttribute('ID')
             if id=='Errors':
                 #found an error
-                raise VizError, 'Vizier generated an error. The error was:' + element.firstChild.data
+                raise VizError('Vizier generated an error. The error was:' + element.firstChild.data)
         # no CSV table was found ie. no data
         # needs some error checking - might be a bad url or target
         return [],0,[]
@@ -258,7 +258,7 @@ def parseVizResponse(response):
 
 # extract data from CSV table
 
-    csvreader=csv.reader(StringIO.StringIO(table), delimiter=colsep)
+    csvreader=csv.reader(io.StringIO(table), delimiter=colsep)
 
 
 # this next bit is very kludgy, weird csvreader object and array manipulations
@@ -304,7 +304,7 @@ def sortResults(table, n_stars, headlines, min_r, max_r, min_mag, max_mag):
 
     r_index = top=='_r'
     if not True in r_index:
-        raise GuideStarError, ('Could not find a radius column in search results\n' +
+        raise GuideStarError('Could not find a radius column in search results\n' +
               'Returned columns are: ' + str(top))
     r=data[:,r_index]
 
@@ -312,7 +312,7 @@ def sortResults(table, n_stars, headlines, min_r, max_r, min_mag, max_mag):
                 (top=='Fmag') + (top=='Umag') + (top=='jmag')
     # hard coded brute force
     if not True in mag_index:
-        raise GuideStarError, ('Could not find a magnitude column in search results\n' +
+        raise GuideStarError('Could not find a magnitude column in search results\n' +
               'Returned columns are: ' + str(top))
     mag=data[:,mag_index]
 
@@ -478,7 +478,7 @@ def findGuideStars(targetRA, targetDec="", imfilter='', instrument='', targetRad
         abs_max_mag = 19.
         abs_min_mag = 10.
     else:
-        raise GuideStarError, "Instrument settings not found, but passed input checking. This shouldn't happen"
+        raise GuideStarError("Instrument settings not found, but passed input checking. This shouldn't happen")
 
 
     # modify radii if the source is very large
@@ -504,7 +504,7 @@ def findGuideStars(targetRA, targetDec="", imfilter='', instrument='', targetRad
                                 pref_min_r, pref_max_r, pref_min_mag, pref_max_mag)
 
     if n_stars>1:
-        print('Finished, selected ' + str(n_stars) + ' guide stars')
+        print(('Finished, selected ' + str(n_stars) + ' guide stars'))
         status = 'Found ' + str(n_stars) + ' stars'
     elif n_stars==1:
         print('Finished, found one guide star')
@@ -530,9 +530,9 @@ if __name__ == "__main__":
    try:
        opts,args = getopt.getopt(sys.argv[1:],"vdf:i:r:",
            ["verbose","debug","filter=","instrument=","radius=","help"])
-   except getopt.GetoptError, inst:
-       print inst
-       print 'Use --help to get a list of options'
+   except getopt.GetoptError as inst:
+       print(inst)
+       print('Use --help to get a list of options')
        sys.exit(2)
 
    ra, dec, imfilter, ins, radius = "","","","",""
@@ -553,7 +553,7 @@ if __name__ == "__main__":
        elif opt in ('-r','--radius'):
             radius = float(arg)
        else:
-            print 'Unknown option: ' + opt
+            print('Unknown option: ' + opt)
             usage()
 
    for argument in args:
@@ -563,13 +563,13 @@ if __name__ == "__main__":
             dec = argument
         else:
             #too many arguments
-            raise BadInput, 'Too many arguments, takes one or two input arguments'
+            raise BadInput('Too many arguments, takes one or two input arguments')
 
    if ra=="":    # no target was specified
-        raise BadInput, 'No target specified'
+        raise BadInput('No target specified')
 
    n_stars,data = findGuideStars(ra,dec,imfilter,ins,radius)
-   print n_stars, data
+   print(n_stars, data)
    sys.exit(0)
 
 

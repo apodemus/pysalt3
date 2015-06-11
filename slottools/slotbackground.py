@@ -33,7 +33,7 @@
 """Contains the algorithms to perform photometry on slotmode data."""
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 from pyraf import iraf
 import saltprint, saltsafeio, saltstat
@@ -103,7 +103,7 @@ def med_row_image(arr):
         marr=np.zeros((nrows,1),dtype=float)
         for i in range(nrows):
             marr[i]=np.median(arr[i])
-    except Exception, e:
+    except Exception as e:
         raise SaltError('Could not calculate median row values ' + e)
 
     return marr

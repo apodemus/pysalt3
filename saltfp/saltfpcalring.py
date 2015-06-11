@@ -46,7 +46,7 @@ Updates:
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -60,8 +60,8 @@ import saltsafeio as saltio
 import salttime
 from saltsafelog import logging
 
-from fptools import findrings, findcenter
-from FPRing import ringfit
+from .fptools import findrings, findcenter
+from .FPRing import ringfit
 
 debug=True
 

@@ -20,7 +20,7 @@
 # S M Crawford (SAAO)    0.1          16 Mar 2010
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 
 
@@ -60,14 +60,14 @@ from saltsafelog import logging
 from salterror import SaltError, SaltIOError
 
 
-from OrderedDict import OrderedDict
-from ImageWidget import ImageWidget
-from SpectraViewWidget import SpectraViewWidget
-from InfoWidget import InfoWidget
-from DQWidget import DQWidget
-from ObsLogWidget import ObsLogWidget
-from SpectraViewWidget import SpectraViewWidget
-from ObsLogWidget import headerList, printList
+from .OrderedDict import OrderedDict
+from .ImageWidget import ImageWidget
+from .SpectraViewWidget import SpectraViewWidget
+from .InfoWidget import InfoWidget
+from .DQWidget import DQWidget
+from .ObsLogWidget import ObsLogWidget
+from .SpectraViewWidget import SpectraViewWidget
+from .ObsLogWidget import headerList, printList
 
 debug=True
 
@@ -220,13 +220,13 @@ class FirstWindow(QtGui.QMainWindow):
           self.obsdict = OrderedDict()
 
    def updateextract(self, y1, y2):
-       print y1, y2
+       print(y1, y2)
        name=self.specTab.name
        iminfo=self.obsdict[name]
        lampid=iminfo[headerList.index('LAMPID')].strip().upper()
        objsection='[%i:%i]' % (y1, y2)
        if self.specTab.defaultBox.checkState():
-               print "Updating Object Section"
+               print("Updating Object Section")
                self.objsection=objsection
        else:
                self.objsection=None
@@ -242,7 +242,7 @@ class FirstWindow(QtGui.QMainWindow):
 
    def updatetime(self):
        """Check to see if the data or logs need updating"""
-       print "Checking for updates at %s" % time.asctime()
+       print("Checking for updates at %s" % time.asctime())
 
        #check for any new data
        self.clickfordata('')
@@ -254,22 +254,22 @@ class FirstWindow(QtGui.QMainWindow):
 
    def updateobslogdb(self, logstr):
        #print logstr
-       print "Updating Obslog for ", self.obsdate
+       print("Updating Obslog for ", self.obsdate)
        sdbloadobslog(logstr, self.obsdate, self.sdbhost, self.sdbname, self.sdbuser, self.password)
        pickle.dump(self.obsdict, open(self.pickle_file, 'wb'))
        
 
    def updatecals(self):
-       print "Loading Calibration Data"
+       print("Loading Calibration Data")
        findcal(self.obsdate, self.sdbhost, self.sdbname, self.sdbuser, self.password)
 
 
    def updateimlist(self, name, key, value):
-       print "UPDATE:", name, key, value
+       print("UPDATE:", name, key, value)
 
    def updatespecview(self, name):
        name = str(name)
-       print "UPDATING SPECVIEW with %s" % name
+       print("UPDATING SPECVIEW with %s" % name)
        specfile='./smbxp'+name.split('.fits')[0]+'.txt'
        warr, farr, snarr=np.loadtxt(specfile, usecols=(0,1,2), unpack=True)
        self.specTab.loaddata(warr, farr, snarr, name)
@@ -287,9 +287,9 @@ class FirstWindow(QtGui.QMainWindow):
        #update the information panel
        try:
            self.infoTab.update(name, self.obsdict[name])
-           print "UPDATING tabs with %s" % name
-       except Exception, e:
-           print e
+           print("UPDATING tabs with %s" % name)
+       except Exception as e:
+           print(e)
            return
 
        if self.thread.isRunning() and self.nothread:
@@ -301,8 +301,8 @@ class FirstWindow(QtGui.QMainWindow):
            #self.dqTab=DQWidget(name, self.obsdict[name])
            #self.tabWidget.removeTab(1)
            #self.tabWidget.insertTab(1, self.dqTab, 'DQ')
-       except Exception, e:
-           print e
+       except Exception as e:
+           print(e)
            return
 
        #display the image
@@ -310,8 +310,8 @@ class FirstWindow(QtGui.QMainWindow):
            rfile='mbxp'+name
            cfile=rfile.replace('.fits', '.cat')
            display(rfile, cfile)
-       except  Exception, e:
-           print e
+       except  Exception as e:
+           print(e)
 
 
        #update the spectra plot
@@ -359,7 +359,7 @@ class FirstWindow(QtGui.QMainWindow):
         else:
             watchpath.append('%shbdet/data/%s/' % (self.imdir, self.obsdate[0:4]))
 
-        print watchpath
+        print(watchpath)
         self.watcher.addPaths(watchpath)
         self.connect(self.watcher, QtCore.SIGNAL('directoryChanged (const QString&)'), self.newfileEvent)
         #watcher.directoryChanged.connect(self.newfileEvent)
@@ -393,18 +393,18 @@ class FirstWindow(QtGui.QMainWindow):
        #skip over an files that are .bin files
        if newfile.count('.bin'):
            msg="Sorry I can't handle slotmode files like %s, yet" % files[-1]
-           print msg
+           print(msg)
            return
-       print newfile
+       print(newfile)
        
        if not newfile.count('.fit'): return
        #see if the new file can be opened and added to obsdict
        name=self.addtoobsdict(newfile)
-       print 'Added to obs:', name
+       print('Added to obs:', name)
 
        #if it fails, return
        if name is None: return
-       print edir
+       print(edir)
        #check to see if it is a new file and if so, add it to the files
        #if not return
        if edir==self.scamdir:
@@ -433,9 +433,9 @@ class FirstWindow(QtGui.QMainWindow):
            self.newname=name
            self.newfile=newfile
            self.thread.run=self.runcleandata
-           print 'Setting up thread'
+           print('Setting up thread')
            self.thread.start()
-           print 'Thread Started'
+           print('Thread Started')
            
    def runcleandata(self):
            self.nothread=True 
@@ -443,7 +443,7 @@ class FirstWindow(QtGui.QMainWindow):
                      clobber=self.clobber, display_image=True)
            if self.nothread:
                self.nothread=False
-               print "emitting signal"
+               print("emitting signal")
                self.thread.emit(QtCore.SIGNAL("finishedthread(QString)"), self.newname)
 
 
@@ -515,7 +515,7 @@ class FirstWindow(QtGui.QMainWindow):
        for i in range(len(self.allfiles)):
            if self.allfiles[i][-5:]==".fits" and self.allfiles[i].count(self.obsdate):
              name=os.path.basename(self.allfiles[i])
-             if name not in self.obsdict.keys(): # or not os.path.isfile('mbxp'+name): 
+             if name not in list(self.obsdict.keys()): # or not os.path.isfile('mbxp'+name): 
                name=self.addtoobsdict(self.allfiles[i])
                if self.imreduce:
                    self.obsdict[name]=self.cleandata(self.allfiles[i], iminfo=self.obsdict[name],
@@ -525,14 +525,14 @@ class FirstWindow(QtGui.QMainWindow):
                self.headfiles.append(self.allfiles[i])
            elif self.allfiles[i][-4:]==".fit": #for hrs
              name=os.path.basename(self.allfiles[i])
-             if name not in self.obsdict.keys(): # or not os.path.isfile('mbxp'+name): 
+             if name not in list(self.obsdict.keys()): # or not os.path.isfile('mbxp'+name): 
                 name=self.addtoobsdict(self.allfiles[i])
                 if self.imreduce:
                    self.obsdict[name]=self.cleandata(self.allfiles[i], iminfo=self.obsdict[name],
                              reduce_image=False, clobber=self.clobber)
            elif self.allfiles[i].count(".bin"):
                msg="Sorry I can't handle slotmode files like %s, yet" % self.allfiles[i]
-               print msg
+               print(msg)
 
    def addtoobsdict(self, infile):
        try:
@@ -545,8 +545,8 @@ class FirstWindow(QtGui.QMainWindow):
            time.sleep(5)
            name=self.addtoobsdict(infile)
            return name
-       except Exception, e:
-           print e
+       except Exception as e:
+           print(e)
            return None
        self.obsdict[name]=imlist
        return name
@@ -567,7 +567,7 @@ class FirstWindow(QtGui.QMainWindow):
 
       #If it is a bin file, pre-process the data
       if filename.count('.bin'):
-          print "I can't handle this yet"
+          print("I can't handle this yet")
 
       #ignore bcam files
       if infile.startswith('B'):
@@ -578,7 +578,7 @@ class FirstWindow(QtGui.QMainWindow):
       if os.path.isfile(outfile) and not clobber: return iminfo
 
       #handle HRS data 
-      print filename
+      print(filename)
       if infile.startswith('H') or infile.startswith('R'):
           shutil.copy(filename, outfile)
           return iminfo
@@ -594,8 +594,8 @@ class FirstWindow(QtGui.QMainWindow):
       if reduce_image:
          try:
            quickclean(filename, interp, cleanup, clobber, logfile, verbose)
-         except Exception, e:
-           print e
+         except Exception as e:
+           print(e)
            return iminfo
 
       #load the data into the SDB
@@ -604,17 +604,17 @@ class FirstWindow(QtGui.QMainWindow):
                log=None #open(logfile, 'a')
                sdb=saltmysql.connectdb(self.sdbhost, self.sdbname, self.sdbuser, self.password)
                sdbloadfits(filename, sdb, log, False)
-               print 'SDBLOADFITS: SUCCESS'
-           except Exception, e:
-               print 'SDBLOADFITSERROR:', e
+               print('SDBLOADFITS: SUCCESS')
+           except Exception as e:
+               print('SDBLOADFITSERROR:', e)
 
       #display the image
       if display_image:
-          print "Displaying %s" % outfile
+          print("Displaying %s" % outfile)
           try:
              display(outfile)
-          except Exception, e:
-             print e
+          except Exception as e:
+             print(e)
 
       #if the images are imaging data, run sextractor on them
       name=iminfo[0]
@@ -624,7 +624,7 @@ class FirstWindow(QtGui.QMainWindow):
       obstype=iminfo[headerList.index('CCDTYPE')].strip().upper()
       target=iminfo[headerList.index('OBJECT')].strip().upper()
       lampid=iminfo[headerList.index('LAMPID')].strip().upper()
-      print detmode
+      print(detmode)
       if (obsmode=='IMAGING' or obsmode=='FABRY-PEROT' ) and (detmode=='NORMAL' or detmode=='FT' or detmode=='FRAME TRANSFER'):
           i=headerList.index('CCDSUM')
           ccdbin=int(iminfo[i].split()[0])
@@ -632,7 +632,7 @@ class FirstWindow(QtGui.QMainWindow):
           r_ap=1.5/pix_scale
 
           #measure the photometry
-          print "RUNNING PHOTOMETRY"
+          print("RUNNING PHOTOMETRY")
           quickphot(outfile, r_ap, pix_scale, self.sexfile, clobber, logfile, verbose)
 
           #load the regions
@@ -643,9 +643,9 @@ class FirstWindow(QtGui.QMainWindow):
           #bmean, bmidpt, bstd=saltstat.iterstat(hdu[1].data, 5, 3)
 	  bmean, bmidpt, bstd=(-1,-1,-1)
           #hdu.close()
-          print "---------Background Statistics---------"
-          print "%10s %10s %10s" % ('Mean', 'MidPoint', 'STD')
-          print "%10.2f %10.2f %10.2f" % (bmean, bmidpt, bstd)
+          print("---------Background Statistics---------")
+          print("%10s %10s %10s" % ('Mean', 'MidPoint', 'STD'))
+          print("%10.2f %10.2f %10.2f" % (bmean, bmidpt, bstd))
           iminfo[headerList.index('BMEAN')]='%f' % (bmean)
           iminfo[headerList.index('BMIDPT')]='%f' % (bmidpt)
           iminfo[headerList.index('BSTD')]='%f' % (bstd)
@@ -668,28 +668,28 @@ class FirstWindow(QtGui.QMainWindow):
       #If the images are spectral images, run specreduce on them
       if obsmode=='SPECTROSCOPY': # and not(target in ['FLAT', 'BIAS']):
           y1,y2=quickspec(outfile, lampid, objsection=self.objsection, findobj=True, clobber=True, logfile=logfile, verbose=verbose)
-          print y1,y2
+          print(y1,y2)
           specfile=outpath+'smbxp'+infile.split('.fits')[0]+'.txt'
           #In here, so it doesn't break when the first checkdata  runs
           try:
               self.specTab.updaterange(y1,y2)
               self.emit(QtCore.SIGNAL("updatespec(QString)"), infile)
-          except Exception,e:
+          except Exception as e:
               message="SALTFIRST--ERROR:  Could not wavelength calibrate %s because %s" % (infile, e)
               fout=open(logfile, 'a')
               fout.write(message)
-              print message
+              print(message)
 
       if obsmode=='FABRY-PEROT' and obstype=='ARC':
            try:
               flatimage='/home/ccd/smc/FPFLAT.fits'
               profile=os.path.basename(outfile)
               fpcal(profile, flatimage=flatimage, minflat=18000, niter=5, bthresh=5, displayimage=True, clobber=True, logfile=logfile, verbose=verbose)
-           except Exception,e:
+           except Exception as e:
               message="SALTFIRST--ERROR:  Could not calibrate FP data te %s because %s" % (infile, e)
               fout=open(logfile, 'a')
               fout.write(message)
-              print message
+              print(message)
 
       #check for fast mode operation
       if self.update:
@@ -713,7 +713,7 @@ def getimagedetails(hdu):
    """Return all the pertinant image header details"""
    filename=hdu._HDUList__file.name
    imlist=[filename]
-   print filename
+   print(filename)
    for k in headerList[1:]:
        try:
            value=saltkey.get(k, hdu[0])

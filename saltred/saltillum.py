@@ -51,7 +51,7 @@ Updates
 
 """
 
-from __future__ import with_statement
+
 
 import time, numpy
 from pyraf import iraf

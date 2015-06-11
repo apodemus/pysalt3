@@ -45,7 +45,7 @@ TODO:
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -56,7 +56,7 @@ from pyraf import iraf
 from pyraf.iraf import pysalt
 import saltsafekey as saltkey
 import saltsafeio as saltio
-import fpsafeio
+from . import fpsafeio
 from saltsafelog import logging
 
 # This reads the FORTRAN config file if it exists
@@ -84,7 +84,7 @@ def saltfpmask(images, outimages, outpref, axc,ayc, arad, maskmethod='c', maskva
            #test that the data are in the first 
            try:
                data=hdu[0].data
-           except Exception, e:
+           except Exception as e:
                message='SALTFPMASK--ERROR:  Could not access data in Primary exention of %s because %s' % (img, e)
                log.message(message)
           
@@ -99,7 +99,7 @@ def saltfpmask(images, outimages, outpref, axc,ayc, arad, maskmethod='c', maskva
            hdu[0].data= maskimage(data, axc, ayc, arad, maskvalue)
            try:
                pass
-           except Exception, e:
+           except Exception as e:
                message='SALTFPMASK--ERROR:  Could not create mask for %s because %s' % (img, e)
                log.message(message)
 

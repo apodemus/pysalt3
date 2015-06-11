@@ -33,7 +33,7 @@
 """Module provides uniform logging for SALT."""
 
 # Ensure Python 2.5 compatibility
-from __future__ import with_statement
+
 
 import inspect
 from salterror import SaltError
@@ -67,10 +67,10 @@ class SaltLog:
             # Optional write to standard output
             if with_stdout:
                 # Print header
-                print header
+                print(header)
 
                 # Print message
-                print str(e)+'\n'
+                print(str(e)+'\n')
 
                 if with_backtrace:
                     # Print error traceback
@@ -102,7 +102,7 @@ class SaltLog:
 
             # Optional print to standard output
             if with_stdout:
-                print log_message
+                print(log_message)
 
             # Write header+message to logfile
             f.write(log_message)
@@ -125,7 +125,7 @@ class SaltLog:
 
             # Optional print to standard output
             if with_stdout:
-                print log_message
+                print(log_message)
 
             # Write header+message to logfile
             f.write(log_message+'\n')
@@ -200,7 +200,7 @@ def logging(logfile,debug=True,with_stdout=True,with_call=True):
             msg='%s completed' % fname
             log.message(msg)
 
-    except SaltError, e:
+    except SaltError as e:
         # Catch and log any errors that may have occured
         log.error(e,debug)
 

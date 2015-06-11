@@ -109,7 +109,7 @@ def ResolveCollisions(xspe, yspe ,x0, y0, x1, y1, tkeep, cx, cy, xpad, ypad, \
         tpri = tkeep
         ss = (np.argsort(tpri))[::-1] # reverse sort
 
-        if idebug: print tpri[ss]
+        if idebug: print(tpri[ss])
         tkeep = np.ones(np.shape(tpri)).astype('int')
         rej = np.reshape((tpri == 0.).nonzero(), -1)
         tkeep[rej] = 0
@@ -140,7 +140,7 @@ def ResolveCollisions(xspe, yspe ,x0, y0, x1, y1, tkeep, cx, cy, xpad, ypad, \
             olap = 0
             continue
 
-        if idebug: print ii
+        if idebug: print(ii)
 
         # keep is either priority or always 1, depending on mode
 #        if skeep[ii] <= 0: continue # don't care about pri=0. objects or collisions of ref stars with others
@@ -154,16 +154,16 @@ def ResolveCollisions(xspe, yspe ,x0, y0, x1, y1, tkeep, cx, cy, xpad, ypad, \
 
 
         if inmask[ii] == 1:
-            if idebug: print ii,' already in mask'
+            if idebug: print(ii,' already in mask')
             continue # no need to check if this slit collides
         used=np.reshape((inmask == 1).nonzero(), -1)
         if idebug:
-            print np.size(used),' slits currently in mask'
+            print(np.size(used),' slits currently in mask')
         olap = 0
         for jj in range(np.size(used)):
             # -- check if this rectangle overlaps with any currently in mask:
             if idebug:
-                print 'comparing slit ',ii,' with ',used[jj]
+                print('comparing slit ',ii,' with ',used[jj])
 # http://tech-read.com/2009/02/06/program-to-check-rectangle-overlapping/
             r1x1 = tx0[ii]
             r1x2 = tx1[ii]
@@ -187,13 +187,13 @@ def ResolveCollisions(xspe, yspe ,x0, y0, x1, y1, tkeep, cx, cy, xpad, ypad, \
                     (r1y1 <= r2y2)) : olap=1
 #            else: olap=0
             if idebug:
-                print r1y1,r1y2,r2y1,r2y2
+                print(r1y1,r1y2,r2y1,r2y2)
             
             #if (r1y2 >= r2y1) and (r1y1 <= r2y2) : olap=1
 
 
             if idebug:
-                print 'olap: ',olap
+                print('olap: ',olap)
 # as soon as this slit overlaps with any one already in mask, we can reject it
             if olap == 1:
                 break # hopefully just exits this inner loop
@@ -329,7 +329,7 @@ def setupStars(Nstars_req,xspe,yspe,x0,y0,x1,y1,pri,cx,cy,xpad,ypad,inprevmask):
 
         for jj in range(nstars):
             # -- check if this rectangle overlaps with any currently in mask:
-            if idebug: print 'comparing slit ',ii,' with ',usestars[jj]
+            if idebug: print('comparing slit ',ii,' with ',usestars[jj])
             r1x1 = tx0[ii]
             r1x2 = tx1[ii]
             r1y1 = ty0[ii]
@@ -346,10 +346,10 @@ def setupStars(Nstars_req,xspe,yspe,x0,y0,x1,y1,pri,cx,cy,xpad,ypad,inprevmask):
                 skeep[ii] = 0 #olap=1
                 continue # once collided, no need to consider further
 #            else: olap=0
-            if idebug: print r1y1,r1y2,r2y1,r2y2
-            if idebug: print "removing science slit due to setup star collision"
+            if idebug: print(r1y1,r1y2,r2y1,r2y2)
+            if idebug: print("removing science slit due to setup star collision")
             if idebug: 
-                if skeep[ii] == 0: print "removing science slit due to setup star collision"
+                if skeep[ii] == 0: print("removing science slit due to setup star collision")
     # summarise results
 #    print np.sum(skeep).astype('int'),"slits afterwards, with ",nstars,"setup stars"
     
@@ -508,6 +508,6 @@ def pyslit_optimize(cra, cdec, rotang, equinox, ra, dec, pri, slen_as, swid_as, 
     ##cumul2 = tweakslits(xspe,yspe,x0,y0,x1,y1,pri,cx,cy,xpad,ypad,cumul)
 
     # **** this is indices of the used flags. prob want running_index[use] as return argument
-    print 'these are the returned indexes', use
-    print 'Optimizer completed...'
+    print('these are the returned indexes', use)
+    print('Optimizer completed...')
     return use

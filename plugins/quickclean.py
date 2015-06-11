@@ -37,7 +37,7 @@ import saltsafekey as saltkey
 
 def quickclean(filename, interp='linear', cleanup=True, clobber=False, logfile='saltclean.log', verbose=True):
    """Start the process to reduce the data and produce a single mosaicked image"""
-   print filename
+   print(filename)
 
    #create the input file name
    status=0
@@ -45,7 +45,7 @@ def quickclean(filename, interp='linear', cleanup=True, clobber=False, logfile='
    rawpath=os.path.dirname(filename)
    outpath='./'
    outfile=outpath+'mbxp'+infile
-   print infile, rawpath, outpath
+   print(infile, rawpath, outpath)
 
    #check to see if it exists and return if clobber is no
    if os.path.isfile(outfile) and not clobber: return

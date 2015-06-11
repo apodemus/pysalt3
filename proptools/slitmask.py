@@ -222,7 +222,7 @@ class SlitMask(QObject):
         write out the slitmask and slits info to a xml file.
         '''
 
-        print 'writing xml...'
+        print('writing xml...')
          #create the xml documents and the main Element called slitmask
         self.doc = self.impl.createDocument(None, "slitmask", None)
         slitmask= self.doc.documentElement
@@ -351,7 +351,7 @@ class SlitMask(QObject):
         this function checks for slit collisions
         '''
         idebug = 1
-        if idebug: print "Checking for collisions"
+        if idebug: print("Checking for collisions")
 
         # xleft,xright are spectral lengths in pixels - set to large dummy values for now
 
@@ -371,7 +371,7 @@ class SlitMask(QObject):
         else:
             pass
 
-        print self.center_ra, self.center_dec, self.position_angle
+        print(self.center_ra, self.center_dec, self.position_angle)
 
         # setup default values:
         #slit_ra,slit_dec,slit_length,slit_width,cra,cdec,rotang,equinox,xpad,ypad,xleft,xright
@@ -403,10 +403,10 @@ class SlitMask(QObject):
 
         #TODO: only slits that lie in the FoV should be checked for collisions
         is_in_mask = np.where((self.slitlets.data['inmask_flag'] == 1) * (self.slitlets.data['fov_flag'] == 1))[0]
-        print 'is in mask', is_in_mask
+        print('is in mask', is_in_mask)
         if not is_in_mask.any():  
            msg='No objects in mask'
-           print msg
+           print(msg)
            self.slitlets.data['collision_flag'] = 0
            return
 
@@ -440,13 +440,13 @@ class SlitMask(QObject):
                    if (ymax[i] > ymin[j] and ymax[i] < ymax[j]) or (ymin[i] < ymax[j] and ymin[i] > ymin[j]):
                         self.slitlets.data['collision_flag'][is_in_mask[i]] = 1
                         tcoll_ids.append(self.slitlets.data[is_in_mask[j]]['name'])
-                        print self.slitlets.data['name'][is_in_mask[i]], self.slitlets.data['collision_flag'][is_in_mask[i]]
+                        print(self.slitlets.data['name'][is_in_mask[i]], self.slitlets.data['collision_flag'][is_in_mask[i]])
                         
             if self.slitlets.data['collision_flag'][is_in_mask[i]]:
                self.slitlets.data['collision_id'][is_in_mask[i]] = " ".join(['%s' % x for x in tcoll_ids])
-               print self.slitlets.data['collision_id'][is_in_mask[i]]
+               print(self.slitlets.data['collision_id'][is_in_mask[i]])
 
-        print 'Finished Checking for collisions'
+        print('Finished Checking for collisions')
         self.slitlets.update_flags()
         
     def update_fov_slitlets(self):
@@ -475,7 +475,7 @@ class SlitMask(QObject):
             # send signal
 
     def add_to_mask(self, slitlet):
-        if not slitlet.id in self.__all_slitlets.keys():
+        if not slitlet.id in list(self.__all_slitlets.keys()):
             raise SlitError()
         if slitlet.id in self.__mask_slitlets:
             return

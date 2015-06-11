@@ -31,7 +31,7 @@ Updates
  
 """
 
-from __future__ import with_statement
+
 
 import os
 import numpy as np
@@ -126,7 +126,7 @@ def imcombine(infiles, method='average', reject=None, mask=True,  weight=True, \
    #Copy the first image and create the HDU for the other images
    try:
        outhdu=hdu_list[0]
-   except Exception, e:
+   except Exception as e:
        message='Cannot create output hduList because %s' % e
        raise SaltError(message)
    #determine the size of a single extension.  Assumes all arrays are the same size

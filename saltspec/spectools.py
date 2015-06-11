@@ -309,7 +309,7 @@ def findmatch(xarr, farr, xp, xf, sl, sf, ws, xlimit=10, wlimit=2):
 
     # calculate it using only xp and sl
     if sf is None and not ws:
-        print 'Currently not available'
+        print('Currently not available')
 
     # calculate it without any wavelength solution
     elif not ws:
@@ -597,7 +597,7 @@ def findxcor(xarr, farr, swarr, sfarr, ws, dcoef=None, ndstep=20, best=False,
         # calculate the correlation value
         cc_arr[i] = ncor(farr, asfarr)
         if debug:
-            print cc_arr[i], " ".join(["%f" % k for k in dlist[i]])
+            print(cc_arr[i], " ".join(["%f" % k for k in dlist[i]]))
 
     # now set the best coefficients
     i = cc_arr.argmax()

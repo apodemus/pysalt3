@@ -59,7 +59,7 @@ class ObsLogWidget(QtGui.QWidget):
 
    def cellselected(self, i, j):
        newfile=self.obstable.item(i,j).text()
-       print i,j,newfile, 
+       print(i,j,newfile, end=' ') 
        self.emit(QtCore.SIGNAL("cellclicked(QString)"), newfile)
 
    def set_obsdict(self, obsdict):
@@ -73,7 +73,7 @@ class ObsLogWidget(QtGui.QWidget):
    def printobslog(self):
        """Print the observation log"""
        dpi=6
-       print "Obslog", self.obstable.rowCount()
+       print("Obslog", self.obstable.rowCount())
        hstr='#'
        #set up the output file
        if self.obsdate:

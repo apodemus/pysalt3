@@ -169,7 +169,7 @@ def quickap(profile, lampid=None, findobj=False, objsection=None, skysection=Non
 
    #clean up the data 
    if clobber: 
-      print 'Replacing pixels'
+      print('Replacing pixels')
       os.remove(profile)
       struct[1].data[data==0]=np.median(data)
       struct.writeto(profile)

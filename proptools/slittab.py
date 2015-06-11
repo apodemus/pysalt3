@@ -33,7 +33,7 @@ class SlitTab:
         for index in indexes:
             self.rows.append(index.row())
         self.rows = self.unique(self.rows)
-        print self.rows
+        print(self.rows)
 
 
     def clearslittable(self):
@@ -41,7 +41,7 @@ class SlitTab:
         set all the in_mask flags to 0 and update the slit table
         '''
         rows = self.ui.tableWidgetSlits.rowCount()
-        print rows
+        print(rows)
         self.slitlets.data['inmask_flag'] = 0
         self.updatetabs()
 #        self.ui.tableWidgetSlits.clear()
@@ -81,7 +81,7 @@ class SlitTab:
         if len(self.rows) == 0:
             return
         else:
-            print self.rows
+            print(self.rows)
             for i in self.rows:
                 item = self.ui.tableWidgetSlits.item(i,0)
                 name = str(item.text())

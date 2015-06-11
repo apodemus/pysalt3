@@ -6,7 +6,7 @@ import numpy as np
 import pyfits
 
 from PyQt4 import QtGui, QtCore
-from ObsLogWidget import headerList, printList
+from .ObsLogWidget import headerList, printList
 
 from saltstat import iterstat
 
@@ -53,7 +53,7 @@ class DQWidget(QtGui.QWidget):
        self.setLayout(mainLayout)
 
    def updatetab(self, name, imlist):
-       print "STRARTING UPDATE OF DQ"
+       print("STRARTING UPDATE OF DQ")
        self.imlist=imlist
        self.name=name
        self.obsmode=self.getitem('OBSMODE')
@@ -73,7 +73,7 @@ class DQWidget(QtGui.QWidget):
        # Set up the layout
 
        j=self.layout().indexOf(self.datapanel)
-       print "INDEX", j
+       print("INDEX", j)
        self.layout().itemAt(1).widget().close()
        self.layout().insertWidget(1, self.datapanel)
 
@@ -99,7 +99,7 @@ class DQWidget(QtGui.QWidget):
 
        #get the information about the model
        wcen, w1, w2, res, R, slitsize=rssinfo(grating, graang, artang, slitname, xbin, ybin)
-       print grating, slitname, graang, artang, xbin, ybin
+       print(grating, slitname, graang, artang, xbin, ybin)
 
        #Information to include in the data panel
        #central w, w1, w2, resolution, dw
@@ -115,9 +115,9 @@ class DQWidget(QtGui.QWidget):
        self.slitsizeLabel.setFrameStyle(QtGui.QFrame.Panel | QtGui.QFrame.Raised)
        self.gratingValueLabel = QtGui.QLabel(grating)
        self.gratingValueLabel.setFrameStyle(QtGui.QFrame.Panel |  QtGui.QFrame.Sunken)
-       self.graangValueLabel = QtGui.QLabel(u"%5.3f \u00B0" % graang)
+       self.graangValueLabel = QtGui.QLabel("%5.3f \u00B0" % graang)
        self.graangValueLabel.setFrameStyle(QtGui.QFrame.Panel |  QtGui.QFrame.Sunken)
-       self.artangValueLabel = QtGui.QLabel(u"%5.3f \u00B0" % artang)
+       self.artangValueLabel = QtGui.QLabel("%5.3f \u00B0" % artang)
        self.artangValueLabel.setFrameStyle(QtGui.QFrame.Panel |  QtGui.QFrame.Sunken)
        self.slitnameValueLabel = QtGui.QLabel(slitname)
        self.slitnameValueLabel.setFrameStyle(QtGui.QFrame.Panel |  QtGui.QFrame.Sunken)
@@ -134,15 +134,15 @@ class DQWidget(QtGui.QWidget):
        self.resolutionLabel.setFrameStyle(QtGui.QFrame.Panel | QtGui.QFrame.Raised)
        self.reselementLabel = QtGui.QLabel("Resolution element")
        self.reselementLabel.setFrameStyle(QtGui.QFrame.Panel | QtGui.QFrame.Raised)
-       self.bluewaveValueLabel = QtGui.QLabel(u"%7.2f \u00c5" % w1)
+       self.bluewaveValueLabel = QtGui.QLabel("%7.2f \u00c5" % w1)
        self.bluewaveValueLabel.setFrameStyle(QtGui.QFrame.Panel |  QtGui.QFrame.Sunken)
-       self.centwaveValueLabel = QtGui.QLabel(u"%7.2f \u00c5" % wcen)
+       self.centwaveValueLabel = QtGui.QLabel("%7.2f \u00c5" % wcen)
        self.centwaveValueLabel.setFrameStyle(QtGui.QFrame.Panel |  QtGui.QFrame.Sunken)
-       self.redwaveValueLabel = QtGui.QLabel(u"%7.2f \u00c5" % w2)
+       self.redwaveValueLabel = QtGui.QLabel("%7.2f \u00c5" % w2)
        self.redwaveValueLabel.setFrameStyle(QtGui.QFrame.Panel |  QtGui.QFrame.Sunken)
        self.resolutionValueLabel = QtGui.QLabel("%5i" % R)
        self.resolutionValueLabel.setFrameStyle(QtGui.QFrame.Panel |  QtGui.QFrame.Sunken)
-       self.reselementValueLabel = QtGui.QLabel(u"%4.2f \u00c5" % res)
+       self.reselementValueLabel = QtGui.QLabel("%4.2f \u00c5" % res)
        self.reselementValueLabel.setFrameStyle(QtGui.QFrame.Panel |  QtGui.QFrame.Sunken)
 
        #set up the signal to noise
@@ -209,7 +209,7 @@ class DQWidget(QtGui.QWidget):
        filtername=self.getitem('FILTER')
        telalt=float(self.getitem('TELALT'))
        ccdbin=float(self.getitem('CCDSUM').split()[0])
-       print ccdbin
+       print(ccdbin)
        pix_scale=0.14*ccdbin
        z=90-telalt 
        am=airmass(z)
@@ -219,7 +219,7 @@ class DQWidget(QtGui.QWidget):
           bmean=float(self.getitem('BMEAN'))
           bmidpt=float(self.getitem('BMIDPT'))
           bstd=float(self.getitem('BSTD'))
-       except Exception, e:
+       except Exception as e:
           outimg='mbxp'+self.name
           #hdu=pyfits.open(outimg)
           #bmean, bmidpt, bstd=iterstat(hdu[1].data, 5, 3)
@@ -230,7 +230,7 @@ class DQWidget(QtGui.QWidget):
        try: 
           see=float(self.getitem('SEEING'))
           nsource=float(self.getitem('NSOURCES'))
-       except Exception, e:
+       except Exception as e:
           outtxt='mbxp'+self.name.replace('fits', 'cat')
           try:
              mag_arr, fwhm_arr=np.loadtxt(outtxt, usecols=(2,10), unpack=True)
@@ -240,7 +240,7 @@ class DQWidget(QtGui.QWidget):
           nsource=0 #len(mag_arr)
           mean, std, norm, peak=seeing_stats(fwhm_arr)
           see=mean*pix_scale
-          print e
+          print(e)
           seeing=-1
 
        #Display the filter, pix_scale, airmass, exptime

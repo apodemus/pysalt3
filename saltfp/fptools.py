@@ -4,7 +4,7 @@ import numpy as np
 import scipy.ndimage as nd
 
 from saltfit import interfit
-from FPRing import FPRing, ringfit
+from .FPRing import FPRing, ringfit
 
 
 def fpfunc(z, r, t, coef=None):
@@ -97,7 +97,7 @@ def findrings(data, thresh=5, niter=5, minsize=10, axc=None, ayc=None):
            ymax=max(ydata[ypa], ydata[ypb])
            yrad=0.5*abs(ypb-ypa)
            ysig=0.5*(ysiga+ysigb)
-       except Exception, e:
+       except Exception as e:
            yc=yc
            yrad=0
            ysig=0

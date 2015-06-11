@@ -147,7 +147,7 @@ def new(keyword,value,comment,hdu,file,logfile):
     status = 0
     try:
         hdu.header.update(keyword,value,comment)
-    except Exception, e:
+    except Exception as e:
         message = 'ERROR -- SALTKEY.NEW: Cannot create keyword %s in %s because %s ' % (keyword, file, e)
         status = saltprint.err(logfile,message)
 
@@ -323,7 +323,7 @@ def housekeeping(hdu, keytask, keycomment, hist, file,logfile):
         status = put('SAL-TLM',time.asctime(time.localtime()),hdu, file,logfile)
         status = new(keytask,time.asctime(time.localtime()),keycomment,hdu,file,logfile)
         status = history(hdu,hist,file,logfile)
-    except Exception, e:
+    except Exception as e:
         message = 'ERROR--SALTKEY.HOUSECLEANING: Unable to append keywords because %s ' % e
         status = saltprint.err(logfile,message)
     return status

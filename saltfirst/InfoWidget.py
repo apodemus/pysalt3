@@ -2,7 +2,7 @@
 InfoWidget is a Qt4 Widget for displaying information about an image
 """
 from PyQt4 import QtGui, QtCore
-from ObsLogWidget import headerList, printList
+from .ObsLogWidget import headerList, printList
 
 class InfoWidget(QtGui.QWidget):
    def __init__(self, name, imlist, parent=None):

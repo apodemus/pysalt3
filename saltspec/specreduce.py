@@ -21,7 +21,7 @@ Author                 Version      Date
 
 """
 
-from __future__ import with_statement
+
 
 
 from pyraf import iraf
@@ -115,7 +115,7 @@ def specreduce(images, badpixelimage=None, caltype='rss',
 
             # extract the spectrum
             log.message('Extracting the spectrum from %s' % img)
-            print objsection
+            print(objsection)
             aplist = extract(
                 struct,
                 method='normal',

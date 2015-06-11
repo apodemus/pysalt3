@@ -52,7 +52,7 @@ def embed(arr, x0, y0, emarr):
         y1=int(y0)
         y2=int(y1+ylen)
         emarr[y1:y2,x1:x2]=arr
-    except Exception, e:
+    except Exception as e:
         message = 'ERROR: SALTTRAN.EMBED--Could not embed array because %s ' % e
         raise SaltError(message)
 
@@ -96,7 +96,7 @@ def rebin_factor(a, newshape):
         coordinates = numpy.mgrid[slices]
         indices = coordinates.astype('i')   #choose the biggest smaller integer index
         b=a[tuple(indices)]
-    except Exception, e:
+    except Exception as e:
         b=a
         message='SALTTRAN--ERROR:  Unable to rebin the data because %s' %e
         raise SaltError(message)
@@ -120,7 +120,7 @@ def blockave (a, newshape):
              [')'] + ['.mean(%d)'%(i+1) for i in range(lenShape)]
        #print ''.join(evList)
        return eval(''.join(evList))
-    except Exception, e:
+    except Exception as e:
         b=a
         message='Unable to block average array becase %s ' % e
         raise SaltError(message)

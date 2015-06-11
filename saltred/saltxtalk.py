@@ -61,7 +61,7 @@ Todo
 -----------------------------------------------
 
 """
-from __future__ import with_statement
+
 
 import numpy as np
 from pyraf import iraf
@@ -108,7 +108,7 @@ def saltxtalk(images,outimages,outpref,xtalkfile=None, usedb=False,
            if usedb:
               obsdate=saltkey.get('DATE-OBS', struct[0])
               obsdate=int('%s%s%s' % (obsdate[0:4],obsdate[5:7], obsdate[8:]))
-              xkey=np.array(xdict.keys())
+              xkey=np.array(list(xdict.keys()))
               date=xkey[abs(xkey-obsdate).argmin()]
               xcoeff=xdict[date]
            else:
@@ -190,7 +190,7 @@ def xtalk(struct,xcoeff,namps=2, log=None,verbose=False):
            try:
                struct[vhdu1].data+=xc2*struct[vhdu2].data
                struct[vhdu2].data+=xc1*struct[vhdu1].data
-           except Exception, e:
+           except Exception as e:
                msg='Cannot update the variance frame in %s[%i] because %s' % (infile, vhdu1, e)
                raise SaltError(msg)
 

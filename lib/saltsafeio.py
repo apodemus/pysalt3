@@ -103,7 +103,7 @@ def get_exposure(files, number=1):
 
         # Check if requested exposure number is in current file
         if number<=N:
-            print 'Exposure found in file ',files[0]
+            print('Exposure found in file ',files[0])
             output=np.asarray(f[number-1+offset].data)
         else:
             output=get_exposure(files[1:],number-N)
@@ -206,7 +206,7 @@ def tmpfile(path):
     try:
         tempfile.tempdir = path
         infile = tempfile.mktemp()
-    except Exception, e:
+    except Exception as e:
         infile = ''
         raise SaltIOError('Cannot create temporary file name because %s' % e)
     return infile
@@ -215,7 +215,7 @@ def openfits(infile, mode='copyonwrite', memmap=False):
     """open FITS file"""
     try:
         struct = pyfits.open(infile, mode=mode, memmap=memmap)
-    except Exception, e:
+    except Exception as e:
         msg='Cannot open %s as a FITS file because %s'  % (infile, e)
         raise SaltIOError(msg)
         struct = None
@@ -243,7 +243,7 @@ def writefits(struct,outfile, clobber=True):
         delete(outfile)
     try:
         struct.writeto(outfile)
-    except Exception,e :
+    except Exception as e :
         raise SaltIOError('Cannot write %s because %s' % (outfile, e))
 
 def readimage(struct,hdu):
@@ -270,7 +270,7 @@ def writeimage(struct,hdu,imagedata):
     """write image from HDU structure"""
     try:
         struct[hdu].data = imagedata
-    except Exception, e:
+    except Exception as e:
         raise SaltIOError('Cannot write image data to HDU ' + str(hdu))
     return struct
 
@@ -299,7 +299,7 @@ def newfitstable(table,infile=None):
     struct=''
     try:
         struct = pyfits.new_table(table)
-    except Exception, e:
+    except Exception as e:
         raise SaltIOError('Cannot create new table because %s' % e)
     return struct
 
@@ -341,7 +341,7 @@ def delete(infile):
     """delete a file"""
     try:
         os.remove(infile)
-    except Exception, e:
+    except Exception as e:
         raise SaltIOError('Could not delete '+infile+' because '+str(e))
 
 def deletedir(path):
@@ -396,7 +396,7 @@ def copy(file1,file2):
     """copy file"""
     try:
         shutil.copy2(file1,file2)
-    except Exception, e:
+    except Exception as e:
         raise SaltIOError('Could not copy %s to %s due to %s' % (file1, file2, e))
 
 def copydir(file1,file2):
@@ -410,7 +410,7 @@ def move(file1,file2):
     """move file"""
     try:
         shutil.move(file1,file2)
-    except Exception,e :
+    except Exception as e :
         raise SaltIOError('Could not move %s to %s due to %s' % (file1, file2, e))
 
 def symlink(infile,linkfile,clobber):
@@ -653,7 +653,7 @@ def readccdgeom(geomfile):
                     xshift[1] = float(pars[5])
                     yshift[1] = float(pars[6])
                     rot[1] = float(pars[7])
-    except Exception, e :
+    except Exception as e :
         raise SaltIOError('Cannot read geometry definition parameters in file %s because %s'%(geomfile, e))
 
     return gap, xshift, yshift, rot
@@ -709,8 +709,8 @@ def ask (msg):
     """
     resp=''
     try:
-        resp=raw_input(msg)
-    except Exception, e:
+        resp=input(msg)
+    except Exception as e:
         msg='Could not get response because %s' % e
         raise SaltIOError(msg)
 
@@ -745,7 +745,7 @@ def email(server,username,password,sender,recipient,bcc, subject,message):
         smtp.starttls()
         smtp.ehlo()
         smtp.login(username,password)
-    except Exception, e:
+    except Exception as e:
         message = 'Cannot connect to %s because %s' % (server, e)
         raise SaltIOError(message)
 
@@ -764,7 +764,7 @@ def email(server,username,password,sender,recipient,bcc, subject,message):
     try:
         smtp.sendmail(sender,recip,msg.as_string())
         #print msg
-    except Exception, e:
+    except Exception as e:
         raise SaltIOError('Failed to send email to %s because %s'% (recipient, e))
 
     # disconnect from email server

@@ -44,7 +44,7 @@ Updates:
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -81,7 +81,7 @@ def saltfpprep(images, outimages, outpref,
            log.message(message, with_header=False)
            try:
                convertsalt(img, oimg, clobber=clobber)
-           except SaltError, e:
+           except SaltError as e:
                log.message('%s' %e)
 
 

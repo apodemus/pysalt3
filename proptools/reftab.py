@@ -33,7 +33,7 @@ class RefTab:
         for index in indexes:
             self.rows.append(index.row())
         self.rows = self.unique(self.rows)
-        print self.rows
+        print(self.rows)
 
 
     def clearrefstartable(self):
@@ -97,7 +97,7 @@ class RefTab:
         if len(self.rows) == 0:
             return
         else:
-            print self.rows
+            print(self.rows)
             for i in self.rows:
                 item = self.ui.tableWidgetRefstars.item(i,0)
                 name = str(item.text())

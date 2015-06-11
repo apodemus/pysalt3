@@ -29,7 +29,7 @@ def sensfunc(obs_spectra, std_spectra, ext_spectra, airmass, exptime):
 
     # set up the bandpass
     bandpass = np.diff(obs_spectra.warr).mean()
-    print bandpass
+    print(bandpass)
 
     # correct for extinction
     cal_spectra.farr = cal_spectra.farr / \

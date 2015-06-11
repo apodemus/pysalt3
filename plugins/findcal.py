@@ -76,7 +76,7 @@ def findcal(obsdate, sdbhost, sdbname, sdbuser, password):
                    cid=cid[0]
                    cmd_insert='NightInfo_Id=%i, FileData_Id=%i, SatlicamCalibrationType_Id=%i' % (night_id, k, cid)
                    #saltmysql.insert(sdb, cmd_insert, 'SalitcamNightlyCalibration')
-               print k, " ".join([str(k) for k in caldict[k]])
+               print(k, " ".join([str(k) for k in caldict[k]]))
 
     #list of rss calibration types
     #+-----------------------+----------------------------------+
@@ -155,7 +155,7 @@ def findcal(obsdate, sdbhost, sdbname, sdbuser, password):
                        saltmysql.insert(sdb, cmd_insert, 'RssNightlyCalibration')
                      
 
-                   print k, cid," ".join([str(w) for w in caldict[k]])
+                   print(k, cid," ".join([str(w) for w in caldict[k]]))
 
     return
 
@@ -221,8 +221,8 @@ def checkforflats(sdb, fid, caltype, plist, instr='rss', keylist=None, period=90
        #set the period for to check for the data
        try:
           utstart=saltmysql.select(sdb, 'UTStart', 'FileData', 'FileData_Id=%i' % fid)[0][0]
-       except Exception, e:
-          print e
+       except Exception as e:
+          print(e)
           return False
 
        utstart=utstart-datetime.timedelta(days=period)
@@ -288,8 +288,8 @@ def checkforspst(sdb, fid, keylist, plist, period=7):
 
     try:
        utstart=saltmysql.select(sdb, 'UTStart', 'FileData', 'FileData_Id=%i' % fid)[0][0]
-    except Exception, e:
-       print e
+    except Exception as e:
+       print(e)
        return False
 
     #set the period for to check for the data

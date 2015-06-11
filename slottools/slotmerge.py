@@ -36,7 +36,7 @@ It will be able to handle multiple images in a single FITS file and will also up
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 from pyraf import iraf
 from pyraf.iraf import pysalt

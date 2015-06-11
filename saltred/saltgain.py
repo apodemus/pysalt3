@@ -80,7 +80,7 @@ need to be finalized
 -ability for config file to handle non-linear gains
 """
 
-from __future__ import with_statement
+
 
 from pyraf import iraf
 
@@ -214,7 +214,7 @@ def gain(struct,mult=True,usedb=False, dblist=None, ampccd=2, log=None, verbose=
            try:
                data=struct[hdu].data
                struct[hdu].data=gain*data+gain1*data**2
-           except Exception, e:
+           except Exception as e:
                msg='Cannot gain correct %s[%i] because %s' % (infile, hdu, e)
                raise SaltError(msg)
                
@@ -224,7 +224,7 @@ def gain(struct,mult=True,usedb=False, dblist=None, ampccd=2, log=None, verbose=
                try:
                    vdata=struct[vhdu].data
                    struct[vhdu].data=vdata*gain*(1+2*gain1*1e-6*data)
-               except Exception, e:
+               except Exception as e:
                     msg='Cannot update the variance frame in %s[%i] because %s' % (infile, vhdu, e)
                     raise SaltError(msg)
        else:

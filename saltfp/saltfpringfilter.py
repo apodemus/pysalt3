@@ -40,7 +40,7 @@ Updates:
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -51,7 +51,7 @@ from pyraf import iraf
 from pyraf.iraf import pysalt
 import saltsafekey
 import saltsafeio
-import fpsafeio
+from . import fpsafeio
 from saltsafelog import logging
 from salterror import SaltIOError
 
@@ -174,7 +174,7 @@ def saltfpringfilter(axc,ayc,arad,rxc,ryc,filterfreq,filterwidth,itmax,conv, fit
         else:
             dir = './'
         infile = basein
-        print dir, infile, 'input directory and input file'
+        print(dir, infile, 'input directory and input file')
 
         # Get current working directory as the Fortran code changes dir
         startdir = os.getcwd()

@@ -16,7 +16,7 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-from __future__ import with_statement
+
 
 import sys, os, shutil
 
@@ -51,8 +51,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'PySALT'
-copyright = u'2014, South African Astronomical Observatory (SAAO)'
+project = 'PySALT'
+copyright = '2014, South African Astronomical Observatory (SAAO)'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -186,8 +186,8 @@ htmlhelp_basename = 'PySALTdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'PySALT.tex', u'PySALT Documentation',
-   u'South African Astronomical Observatory (SAAO)', 'manual'),
+  ('index', 'PySALT.tex', 'PySALT Documentation',
+   'South African Astronomical Observatory (SAAO)', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -211,10 +211,10 @@ latex_documents = [
 todo_include_todos = True
 
 # Preprocessing
-print "START PREPROCESSING"
+print("START PREPROCESSING")
 
 # Autogenerate module documentation in *modules* directory for all modules listed in *modules.lst*
-print "Automatica2014generating API documentation for modules in 'modules.lst'."
+print("Automatica2014generating API documentation for modules in 'modules.lst'.")
 
 # Remove old versions
 if os.path.exists('modules'):
@@ -224,7 +224,7 @@ os.mkdir('modules')
 modstubs.autogen('modules.lst','modules')
 
 # Autogenerate rst from IRAF help files
-print "Automatically converting IRAF help file documentation for tasks listed in 'tasks.lst'."
+print("Automatically converting IRAF help file documentation for tasks listed in 'tasks.lst'.")
 iraf.load('pysalt')
 pysalt_list = []
 for i in iraf.getTaskList():
@@ -255,7 +255,7 @@ if os.path.exists(out):
 
 os.mkdir(out)
 for task in tasks:
-    print "Converting help for task:",task
+    print("Converting help for task:",task)
     if os.path.isfile(root+task):
        rst=iraf2format.help2ReStructuredText(root+task)
     else:
@@ -271,4 +271,4 @@ for task in tasks:
     with open(out+package+'/'+taskname+'.rst','w') as f:
         f.write(rst)
 
-print "END PREPROCESSING"
+print("END PREPROCESSING")

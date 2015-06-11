@@ -84,7 +84,7 @@ class SpectraViewWidget(QtGui.QWidget):
        self.setLayout(mainLayout)
 
    def updatedefaults(self):
-       print self.defaultBox.checkState()
+       print(self.defaultBox.checkState())
        return
 
    def updatesmooth(self):
@@ -92,13 +92,13 @@ class SpectraViewWidget(QtGui.QWidget):
           self.smooth = int(self.smoothValueLabel.text())
        except ValueError:
           return
-       print self.smooth
+       print(self.smooth)
        self.redraw_canvas()
  
    def updatename(self, name):
        self.name=name
        self.NameValueLabel.setText(self.name)
-       print self.name
+       print(self.name)
 
    def updaterange(self, y1, y2):
        self.y1=y1
@@ -109,11 +109,11 @@ class SpectraViewWidget(QtGui.QWidget):
    def extractspectra(self):
        y1=int(self.y1ValueLabel.text())
        y2=int(self.y2ValueLabel.text())
-       print self.name
+       print(self.name)
        self.emit(QtCore.SIGNAL("updateextract(int, int)"), y1,y2)
 
    def loaddata(self, warr, farr, snarr, name=''):
-       print "Loading data"
+       print("Loading data")
        self.warr=warr
        self.farr=farr
        self.snarr=snarr

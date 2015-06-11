@@ -26,7 +26,7 @@ LIMITATIONS
 """
 
 # Ensure Python 2.5 compatibility
-from __future__ import with_statement
+
 
 # General imports
 import os
@@ -251,7 +251,7 @@ class InterIdentifyWindow(QtGui.QMainWindow):
 
     def newWS(self, y):
         """Determine the WS closest to the values given by y1 and y2"""
-        keys = np.array(self.ImageSolution.keys())
+        keys = np.array(list(self.ImageSolution.keys()))
         try:
             i = abs(keys - y).argmin()
             ws = self.ImageSolution[keys[i]]
@@ -772,7 +772,7 @@ class ArcDisplay(QtGui.QWidget):
  d - delete feature      u - undelete feature
  X - fit full X-cor
  """
-        print helpoutput
+        print(helpoutput)
 
     def onKeyPress(self, event):
         """Emit signal on key press"""
@@ -847,10 +847,10 @@ class ArcDisplay(QtGui.QWidget):
         elif event.key == 'p':
             # print information about features
             for i in range(len(self.xp)):
-                print self.xp[i], self.wp[i]
+                print(self.xp[i], self.wp[i])
         elif event.key == 'P':
             # print information about features
-            print self.ws.coef
+            print(self.ws.coef)
         elif event.key == 'r':
             # redraw graph
             self.redraw_canvas()
@@ -906,7 +906,7 @@ class ArcDisplay(QtGui.QWidget):
         """Plot the lines that are detected"""
         xp, xf = st.findpoints(
             self.xarr, self.farr, self.sigma, self.niter, sections=self.sections)
-        print xp
+        print(xp)
         self.axes.plot(xp, xf, ls='', marker='|', ms=20, color='#000000')
 
     def plotFeatures(self):

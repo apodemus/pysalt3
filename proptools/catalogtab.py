@@ -32,13 +32,13 @@ class CatalogTab:
             zip.extract('Slitmask.xml')
             try:
                 dom = minidom.parse('Slitmask.xml')
-            except xml.parsers.expat.ExpatError, e:
+            except xml.parsers.expat.ExpatError as e:
                 raise ReadXMLError(e)
 
         except zipfile.BadZipfile:
             try:
                 dom = minidom.parse(infile)
-            except xml.parsers.expat.ExpatError,e:
+            except xml.parsers.expat.ExpatError as e:
                 raise ReadXMLError(e)
         return dom
 
@@ -85,7 +85,7 @@ class CatalogTab:
             #enter the file information into the slit_arr
             self.slitlets.readascii(self.infile, form=form)
             self.slitmask.set_MaskPosition()
-        print self.slitmask.center_ra, self.slitmask.center_dec
+        print(self.slitmask.center_ra, self.slitmask.center_dec)
         #check for objects outside the FoV
         self.slitmask.outFoV()
         ### TESTING THE COLLISION CHECKER
@@ -120,7 +120,7 @@ class CatalogTab:
 
        #get the selected items
        sel_list = self.ui.tableWidgetCat.selectedItems()
-       print self.ui.tableWidgetCat.selectedRanges()
+       print(self.ui.tableWidgetCat.selectedRanges())
        
        #for each item in sel_list, 
        #get the item, and determine the parameters from it 

@@ -118,7 +118,7 @@ def hrsclean(images, outpath, obslogfile=None, subover=True, trim=True, masbias=
                masterbias_dict=compareimages(struct, bimg, masterbias_dict, keylist=hrsbiasheader_list)
 
        #create the master bias frame
-       for i in masterbias_dict.keys():
+       for i in list(masterbias_dict.keys()):
            bkeys=masterbias_dict[i][0]
            blist=masterbias_dict[i][1:]
            mbiasname=outpath+createmasterbiasname(blist, bkeys, x1=5, x2=13)

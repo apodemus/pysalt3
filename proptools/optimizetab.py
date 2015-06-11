@@ -9,7 +9,7 @@ import pyslit_optimize as opt
 
 class OptimizeTab:
     def __init__(self, ui, default_yspacing=1., default_iter=10):
-        print 'loading OPT'
+        print('loading OPT')
         self.ui = ui
         self.slitlets=Slitlets()
         self.opt_yspacing = default_yspacing
@@ -29,13 +29,13 @@ class OptimizeTab:
             self.ui.lineEditOpt_AllRefstars.setText('')
 
     def setnumrefstars(self):
-        print self.ui.lineEditOpt_NumRefstars.text()
+        print(self.ui.lineEditOpt_NumRefstars.text())
 
         
     def optimize(self): 
         """Run the optimizer program and optimize the slits"""
         msg = "Optimize the Slitlets"
-        print msg
+        print(msg)
         cra = self.slitmask.center_ra
         cdec = self.slitmask.center_dec
         rotang = self.slitmask.position_angle
@@ -60,17 +60,17 @@ class OptimizeTab:
         # -- only run this on objects within FOV:        
         ok = is_in_fov
         if not ok.any(): 
-           print "No objects in the field of view--update mask center and run again"
+           print("No objects in the field of view--update mask center and run again")
            return
 
-        print ra[ok]
+        print(ra[ok])
         tra = ra[ok]
         tdec = dec[ok]
         tpri = pri[ok]
         tslen = slen[ok]
         tswid = swid[ok]
         tstilt = stilt[ok]
-        print 'running optimizer'
+        print('running optimizer')
  
         tin_mask = opt.pyslit_optimize(cra, cdec, rotang, equinox, tra, tdec, \
                                     tpri,tslen,tswid,tstilt,\
@@ -104,7 +104,7 @@ class OptimizeTab:
             else:
                 self.opt_yspacing = 1
                 self.ui.lineEditOpt_Yspacing.setText(str(self.opt_yspacing))
-        except ValueError,e:
+        except ValueError as e:
             self.opt_yspacing = 1
             self.ui.lineEditOpt_Yspacing.setText(str(self.opt_yspacing))
 
@@ -116,6 +116,6 @@ class OptimizeTab:
             else:
                 self.opt_niter = 10
                 self.ui.lineEditOpt_Niter.setText(str(self.opt_niter))
-        except ValueError,e:
+        except ValueError as e:
             self.opt_niter = 10
             self.ui.lineEditOpt_Niter.setText(str(self.opt_niter))

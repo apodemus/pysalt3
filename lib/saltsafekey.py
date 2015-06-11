@@ -100,7 +100,7 @@ def found(keyword,hdu):
        found=True
    except KeyError:
        found=False
-   except Exception, e:
+   except Exception as e:
        raise SaltIOError(e)
 
    return found
@@ -157,7 +157,7 @@ def new(keyword,value,comment,hdu,infile=None):
 
     try:
        hdu.header.update(keyword,value,comment)
-    except Exception, e:
+    except Exception as e:
        if infile is None: infile=getimagename(hdu, base=False)
        msg='Cannot create keyword %s in %s because %s ' % (keyword, infile, e)
        raise SaltIOError(msg)
@@ -283,7 +283,7 @@ def history(struct,message,infile=None):
     struct.header.add_history(str(message))
     try:
       pass
-    except Exception, e:
+    except Exception as e:
         if infile is None: infile=getimagename(struct, base=False)
         raise SaltIOError('Cannot write HISTORY keyword to %s because %s'%(infile, e))
 
@@ -307,7 +307,7 @@ def housekeeping(hdu, keytask, keycomment, hist, infile=None):
         history(hdu,hist)
     try:
         pass
-    except Exception, e:
+    except Exception as e:
         msg='Unable to append keywords because %s ' % e
         raise SaltIOError(msg)
 

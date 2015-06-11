@@ -53,7 +53,7 @@ def median(x,logfile=None):
    """
    try:
        return np.median(x)
-   except Exception, e:
+   except Exception as e:
        message = 'Cannont calculate median because %s' % e
        raise SaltError(message)
 
@@ -72,7 +72,7 @@ def median2d(arrays,logfile=None):
     try:
         arrays = arrays.ravel()
         median = np.median(arrays)
-    except Exception, e:
+    except Exception as e:
         median=None
         message = 'ERROR -- SALTSTAT.MEDIAN2D: Cannot median image arrays because %s' % e
         raise SaltError(message)
@@ -120,7 +120,7 @@ def median2dclip(arr, mean, std, sig):
         arr = arr.ravel()
         mask=(abs(arr-mean) < sig*std)
         median = np.median(arr[mask])
-    except Exception, e:
+    except Exception as e:
         median=-1
     return median
 
@@ -131,13 +131,13 @@ def iterstat(arr, sig, niter, verbose=False):
     mean=arr.mean()
     std=arr.std()
     median=np.median(arr)
-    if verbose:  print mean, median, std
+    if verbose:  print(mean, median, std)
     for i in range(niter):
         mask=(abs(arr-mean)<sig*std)
         mean=arr[mask].mean()
         std=arr[mask].std()
         median=np.median(arr[mask])
-        if verbose:  print i,mask.sum(), mean, median, std
+        if verbose:  print(i,mask.sum(), mean, median, std)
     return mean, median, std
 
 def median_combine(arrays, logfile=None, axis=0):
@@ -149,7 +149,7 @@ def median_combine(arrays, logfile=None, axis=0):
     status = 0
     try:
         median = np.median(arrays, axis=axis)
-    except Exception, e:
+    except Exception as e:
         median=None
         message = 'ERROR -- SALTSTAT.MEDIAN_COMBINE: Cannot median combine arrays because %s' % e
         raise SaltError(message)
@@ -164,7 +164,7 @@ def median_image(arr, nbin):
     from scipy.ndimage.filters import median_filter
     try:
         arr=median_filter(arr,size=(nbin,nbin))
-    except Exception, e:
+    except Exception as e:
         raise SaltError('Could not median filter image because %s' % e)
 
     return arr

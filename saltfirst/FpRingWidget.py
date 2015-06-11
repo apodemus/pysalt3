@@ -197,16 +197,16 @@ class FpRingWidget (QtGui.QWidget):
             try:
                 outparams=open('outparams','a')
                 
-            except IOError, e:
-                print 'Failed to open the ring file'
+            except IOError as e:
+                print('Failed to open the ring file')
 
 
         else:
             try:
                 outparams=open('outparams','w+')
                 
-            except IOError, e:
-                print 'Failed to open the ring file'
+            except IOError as e:
+                print('Failed to open the ring file')
 
             outparams.write("File  X   Y   Z    R       Amp      RMS    Gamma FWHM \n")
 

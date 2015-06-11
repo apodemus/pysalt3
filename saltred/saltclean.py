@@ -56,7 +56,7 @@ Todo
 
 """
 
-from __future__ import with_statement
+
 
 import sys,glob, os, shutil, time
 import numpy as np
@@ -65,14 +65,14 @@ import pyfits
 from pyraf import iraf
 from pyraf.iraf import pysalt
 
-from saltobslog import obslog, createobslogfits
-from saltprepare import prepare
-from saltgain import gain
-from saltxtalk  import xtalk
-from saltbias import bias
-from saltflat import flat
-from saltcombine import saltcombine 
-from saltmosaic import saltmosaic
+from .saltobslog import obslog, createobslogfits
+from .saltprepare import prepare
+from .saltgain import gain
+from .saltxtalk  import xtalk
+from .saltbias import bias
+from .saltflat import flat
+from .saltcombine import saltcombine 
+from .saltmosaic import saltmosaic
 
 import saltsafestring as saltstring
 import saltsafekey as saltkey
@@ -182,7 +182,7 @@ def saltclean(images, outpath, obslogfile=None, gaindb=None,xtalkfile=None,
                masterbias_dict=compareimages(struct, bimg, masterbias_dict, keylist=biasheader_list)
 
        #create the master bias frame
-       for i in masterbias_dict.keys():
+       for i in list(masterbias_dict.keys()):
            bkeys=masterbias_dict[i][0]
            blist=masterbias_dict[i][1:]
            mbiasname=outpath+createmasterbiasname(blist, bkeys)
@@ -230,7 +230,7 @@ def saltclean(images, outpath, obslogfile=None, gaindb=None,xtalkfile=None,
                masterflat_dict=compareimages(struct, fimg, masterflat_dict,  keylist=flatheader_list)
 
        #create the master flat frame
-       for i in masterflat_dict.keys():
+       for i in list(masterflat_dict.keys()):
            fkeys=masterflat_dict[i][0]
            flist=masterflat_dict[i][1:]
            mflatname=outpath+createmasterflatname(flist, fkeys)
@@ -303,7 +303,7 @@ def compareimages(struct, oimg, imdict, keylist):
        return imdict
 
    #compare each value of imdict to the structure
-   for i in imdict.keys():
+   for i in list(imdict.keys()):
        if klist==imdict[i][0]:
           imdict[i].append(oimg)
           return imdict
@@ -340,13 +340,13 @@ def clean(struct, createvar=False, badpixelstruct=None, mult=True, dblist=None, 
        obsdate=saltkey.get('DATE-OBS', struct[0])
        try:
            obsdate=int('%s%s%s' % (obsdate[0:4],obsdate[5:7], obsdate[8:]))
-           xkey=np.array(xdict.keys())
+           xkey=np.array(list(xdict.keys()))
            date=xkey[abs(xkey-obsdate).argmin()]
            xcoeff=xdict[date]
-       except Exception,e : 
+       except Exception as e : 
            msg='WARNING--Can not find xtalk coefficient for %s because %s' % (e, infile)
            if log: log.warning(msg)
-           xcoeff=xdict[xdict.keys()[-1]]
+           xcoeff=xdict[list(xdict.keys())[-1]]
    else:
        xcoeff=[]
    struct = xtalk(struct, xcoeff, log=log, verbose=verbose)
@@ -396,7 +396,7 @@ def createmasterbiasname(infiles, biaskeys):
     obsdate=saltstring.makeobsdatestr(infiles)
         
     #if len(obsdate)<4: obsdate=''
-    print obsdate
+    print(obsdate)
 
     #set the mode string
     mdstr=saltstring.makedetmodestr(biaskeys[1])
@@ -445,7 +445,7 @@ def createmasterflatname(infiles, flatkeys):
     obsdate=saltstring.makeobsdatestr(infiles)
         
     #if len(obsdate)<4: obsdate=''
-    print obsdate
+    print(obsdate)
 
     #set the mode string
     mdstr=saltstring.makedetmodestr(flatkeys[1])

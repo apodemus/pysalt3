@@ -32,7 +32,7 @@ class Slitlets:
                       'f4', 'f4', 'f4', 'f4', 'f4', 'f4', 'f4',
                       'i4', 'i4', 'i4', 'i4', 'S30', 'S128'
                       )
-        self.dtype=zip(self.dnames, self.dformat)
+        self.dtype=list(zip(self.dnames, self.dformat))
         self.data=None
         self.default_width=default_width
         self.default_length=default_length
@@ -195,11 +195,11 @@ class Slitlets:
         '''
         slitdnames=('name', 'targ_ra', 'targ_dec', 'mag', 'priority', 'width', 'len1','len2')
         slitdformat=('S30', 'f4', 'f4', 'f4', 'f4', 'f4', 'f4','f4')
-        slitdtype=zip(slitdnames, slitdformat)
+        slitdtype=list(zip(slitdnames, slitdformat))
 
         refstardnames=('name', 'targ_ra', 'targ_dec', 'mag')
         refstardformat=('S30', 'f4', 'f4', 'f4')
-        refstardtype=zip(refstardnames, refstardformat)
+        refstardtype=list(zip(refstardnames, refstardformat))
 
 
         # map the dict values to the recarray names
@@ -207,7 +207,7 @@ class Slitlets:
         'priority':'priority','width':'width','len1':'len1','len2':'len2'}
 
         slitlist = []
-        for i in slits_dict.keys():
+        for i in list(slits_dict.keys()):
             tmp = [slits_dict[i][map[j]] for j in slitdnames]
             slitlist.append(tmp)
 
@@ -225,7 +225,7 @@ class Slitlets:
             dtypes=mtypes, fill_value=0, usemask=False)
 
         refstarlist = []
-        for i in refstars_dict.keys():
+        for i in list(refstars_dict.keys()):
             tmp = [refstars_dict[i][map[j]] for j in refstardnames]
             refstarlist.append(tmp)
 
@@ -280,7 +280,7 @@ class Slitlets:
             color = 'green'
             if self.data['collision_flag'][i] == 1:
                 color = 'red'
-            print name, self.data['collision_flag'][i], self.data['collision_id'][i]
+            print(name, self.data['collision_flag'][i], self.data['collision_id'][i])
             regstr = '%s(%f,%f,%f",%f",%f) # color={%s} tag = {slit} tag = {%s}\n ' % (shape, ra, dec, width, length, tilt, color, name)
             #regstr+='%s(%f,%f,%f",%f",%f) # color={green} tag = {slit} tag = {%s} ' % (shape, ra, dec, 1000, length, tilt, name)
         return regstr
@@ -352,7 +352,7 @@ class slitshape:
         try:
             x=np.where(self.data['name']=='8')[0][0]
             return self.data[x]
-        except Exception,e:
+        except Exception as e:
             raise SlitError(e)
 
 
@@ -382,7 +382,7 @@ def sex2dec(x):
 def ra_read(x):
     try:
        return float(x)
-    except ValueError,e:
+    except ValueError as e:
        try:
            return 15*sex2dec(x)
        except: 
@@ -391,10 +391,10 @@ def ra_read(x):
 def dec_read(x):
     try:
        return float(x)
-    except ValueError,e:
+    except ValueError as e:
        try:
            return sex2dec(x)
-       except ValueError,e:
+       except ValueError as e:
            return None
  
 
@@ -403,8 +403,8 @@ if __name__=='__main__':
    import sys
    s=Slitlets()
    s.readascii(sys.argv[1], form='short')
-   print s.data[s.data['inmask_flag']==1]
-   print s.data.dtype
+   print(s.data[s.data['inmask_flag']==1])
+   print(s.data.dtype)
    #object_arry, slit_dict=readasciicatalog(sys.argv[1], form='short')
    #print object_arry[0]
    #s=slit_dict['177']

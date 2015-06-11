@@ -28,7 +28,7 @@
 #
 
 # Ensure Python 2.5 compatibility
-from __future__ import with_statement
+
 
 #Python modules
 import sys
@@ -67,9 +67,9 @@ def saltheadtime(images,timetype,writetoheader,clobber,logfile,verbose,debug):
         
         # Loop over the input files.
         for file in infiles:
-            print '---------------------------------------------------------\n\
-            '
-            print 'Reading file ', file
+            print('---------------------------------------------------------\n\
+            ')
+            print('Reading file ', file)
             openfile= saltsafeio.openfits(file)
             
             #Get information from header, display it, and close file.
@@ -82,7 +82,7 @@ def saltheadtime(images,timetype,writetoheader,clobber,logfile,verbose,debug):
                   
             if headers['DETMODE']=='SLOT':
                numExtensions=headers['NEXTEND']
-               print 'Detector mode is slot. Number of extensions in this file is '+str(numExtensions)+'.'
+               print('Detector mode is slot. Number of extensions in this file is '+str(numExtensions)+'.')
                for num in range(numExtensions+1):
                     extheader=openfile[num].header
                     dateTimeString.append(extheader['DATE-OBS']+extheader['TIME-OBS'])       
@@ -98,61 +98,61 @@ def saltheadtime(images,timetype,writetoheader,clobber,logfile,verbose,debug):
                     newTime.append(convertUTtoJDUTC(dateTimeString[num]))
                     keyword='JDUT-OBS'
                     comment='Julian Date ref. to UTC.'
-                    print 'The date and time from header extension '+ str(num) +' are:', dateTimeString[num], "UTC"
-                    print 'Converted time ('+ timetype +') ='+str(newTime[num])+'\n\
-                    '
+                    print('The date and time from header extension '+ str(num) +' are:', dateTimeString[num], "UTC")
+                    print('Converted time ('+ timetype +') ='+str(newTime[num])+'\n\
+                    ')
             elif timetype=="JD(TT)":
                 for num in range(len(dateTimeString)):
                     newTime.append(convertUTtoJD(dateTimeString[num]))
                     keyword='JD-OBS'
                     comment='Julian Date ref. to TT (Terrestrial timescale)'
-                    print 'The date and time from header extension '+ str(num) +' are:', dateTimeString[num], "UTC"
-                    print 'Converted time ('+ timetype +') ='+str(newTime[num])+'\n\
-                    '
+                    print('The date and time from header extension '+ str(num) +' are:', dateTimeString[num], "UTC")
+                    print('Converted time ('+ timetype +') ='+str(newTime[num])+'\n\
+                    ')
             elif timetype=="MJD(TT)":
                 for num in range(len(dateTimeString)):
                     newTime.append(convertUTtoMJD(dateTimeString[num]))
                     keyword='MJD-OBS'
                     comment='Modified JD ref. to TT (Terrestrial timescale)'
-                    print 'The date and time from header extension '+ str(num) +' are:', dateTimeString[num], "UTC"
-                    print 'Converted time ('+ timetype +') ='+str(newTime[num])+'\n\
-                    '
+                    print('The date and time from header extension '+ str(num) +' are:', dateTimeString[num], "UTC")
+                    print('Converted time ('+ timetype +') ='+str(newTime[num])+'\n\
+                    ')
             elif timetype=="HJD(TT)":
                 for num in range(len(dateTimeString)):
                     newTime.append(convertUTtoHJD(dateTimeString[num],ra,dec))
                     keyword='HJD-OBS'
                     comment='Heliocentric JD ref. to TT (Terrestrial timescale)'
-                    print 'The date and time from header extension '+ str(num) +' are:', dateTimeString[num], "UTC"
-                    print 'Converted time ('+ timetype +') ='+str(newTime[num])+'\n\
-                    '
+                    print('The date and time from header extension '+ str(num) +' are:', dateTimeString[num], "UTC")
+                    print('Converted time ('+ timetype +') ='+str(newTime[num])+'\n\
+                    ')
             elif timetype=="BJD(TDB)":
                 for num in range(len(dateTimeString)):
                     newTime.append(convertUTtoBJD(dateTimeString[num],ra,dec))
                     keyword='BJD-OBS'
                     comment='Barycentric JD ref. to TDB (Barycentric Dynamical Time)'
-                    print 'The date and time from header extension '+ str(num) +' are:', dateTimeString[num], "UTC"
-                    print 'Converted time ('+ timetype +') ='+str(newTime[num])+'\n\
-                    '
+                    print('The date and time from header extension '+ str(num) +' are:', dateTimeString[num], "UTC")
+                    print('Converted time ('+ timetype +') ='+str(newTime[num])+'\n\
+                    ')
            
             
             #Open file to write new time to header, if desired.
             if writetoheader:
                 try:
                     filetowrite=pyfits.open(file,mode='update')
-                except Exception, e:
-                    print e
+                except Exception as e:
+                    print(e)
                 
                 for num in range(len(dateTimeString)):
                     hdr=filetowrite[num].header
-                    if hdr.has_key(keyword)==1:
+                    if (keyword in hdr)==1:
                         if clobber:
                             hdr.update(keyword,newTime[num],comment)
-                            print 'Keyword ' +keyword +' has been updated in header extension '+str(num)+' to the following value: '+ str(newTime[num])
+                            print('Keyword ' +keyword +' has been updated in header extension '+str(num)+' to the following value: '+ str(newTime[num]))
                         else:
-                            print 'Keyword '+keyword+' has not been updated.'
+                            print('Keyword '+keyword+' has not been updated.')
                     else:   
                         hdr.update(keyword,newTime[num],comment,after='TIME-OBS')
-                        print 'Keyword ' + keyword +' has been added to header extension '+str(num)+' as the following value: '+ str(newTime[num])
+                        print('Keyword ' + keyword +' has been added to header extension '+str(num)+' as the following value: '+ str(newTime[num]))
                 
                     filetowrite.flush()
                 filetowrite.close()

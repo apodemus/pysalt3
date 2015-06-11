@@ -179,7 +179,7 @@ def image_sections(im, debug, inc=1):
     '''
 
     if debug:
-        print 'dividing the image into sections'
+        print('dividing the image into sections')
 
     # determine the section size
     inc_size = numpy.shape(im)[1] / inc
@@ -224,7 +224,7 @@ def divide_image(im, sections):
     '''
     xw = im.shape[1]
     # add 1 so that it returns an inclusive list
-    return range(0, xw + 1, int(xw / sections))
+    return list(range(0, xw + 1, int(xw / sections)))
 
 
 def locate_slits(im, inc, width, sig, thres, full_report=True):
@@ -558,7 +558,7 @@ def which_ext(hdu, ext_name, debug):
     * ext_name is the name of the wanted extension
     '''
     if debug:
-        print 'determining the fits extension for %s' % ext_name
+        print('determining the fits extension for %s' % ext_name)
 
     if ext_name == 'PRIMARY':
         for i in range(0, len(hdu)):
@@ -586,7 +586,7 @@ def which_ext(hdu, ext_name, debug):
 def show_image_with_edges(im, splines, img, debug):
 
     if debug:
-        print 'plotting the extracted spectra on the slit image'
+        print('plotting the extracted spectra on the slit image')
 
     y_dim, x_dim = numpy.shape(im)
     x = numpy.arange(0, x_dim, 1)
@@ -687,7 +687,7 @@ def convert_slits_from_mask(
     ypixscale = pix_scale * ybin
 
     # convert the slitlets in the slit mask to slits for extraction
-    print xbin, ybin
+    print(xbin, ybin)
     for i in range(slitmask.slitlets.nobjects):
         sid = slitmask.slitlets.data[i]['name']
         sra = slitmask.slitlets.data[i]['targ_ra']

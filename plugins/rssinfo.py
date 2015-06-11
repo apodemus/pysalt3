@@ -79,7 +79,7 @@ def rssinfo(grating, grang, arang, slitname, xbin, ybin):
    #calculate the wavelength edges
    w2=1e7*rss.calc_bluewavelength()
    w1=1e7*rss.calc_redwavelength()
-   print w1,w2
+   print(w1,w2)
 
    #calculate the 
    R=rss.calc_resolution(wcen/1e7, rss.alpha(), rss.beta())

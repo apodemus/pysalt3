@@ -64,7 +64,7 @@ Updates:
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -327,7 +327,7 @@ def slotphot(images,outfile,srcfile,newfits=None,phottype='square',
                     # do photometry
                     try:
                         tflux[j],terr[j],cflux[j],cerr[j],ratio[j],rerr[j]=slottool.dophot(phottype, array, x, y, r, br1, br2, gain, rdnoise, naxis1, naxis2)
-                    except SaltError, e:
+                    except SaltError as e:
                         msg='Could not do photometry on extension %i in image %s because %s skipping.' % (ext, infile, e)
                         log.warning(msg)
 
@@ -375,7 +375,7 @@ def slotphot(images,outfile,srcfile,newfits=None,phottype='square',
             except:
                 raise SaltIOError('Cannot close ouput file ' + outfile)
         elif outtype=='fits':
-            print 'writing fits'
+            print('writing fits')
             try:
                 c1=pyfits.Column(name='index',format='D',array=np.arange(ntotal))
                 if reltime:
@@ -398,7 +398,7 @@ def slotphot(images,outfile,srcfile,newfits=None,phottype='square',
                 tbhdu.header.update('RELTIME',str(reltime),'Time relative to first datapoint or absolute.')
 
                 tbhdu.writeto(outfile)
-                print 'fits written to ',outfile
+                print('fits written to ',outfile)
             except:
                 raise SaltIOError('Could not write to fits table.')
 

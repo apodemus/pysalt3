@@ -44,7 +44,7 @@ It will not run on files with the READTIME header keyword already in place.
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -94,7 +94,7 @@ def slotreadtimefix(images,outimages, outpref,
            for i in range(1,len(struct)):
               try:
                   struct[i]=readtimefix(struct[i])
-              except SaltIOError,e :
+              except SaltIOError as e :
                   raise SaltError('%s %s' % (img,e))
 
            #Add history keywords

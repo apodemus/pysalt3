@@ -53,7 +53,7 @@ def log(file,message,verbose):
             output.write(message+'\n')
             output.close()
         except IOError:
-            print "Could not write message '"+message+"' to file "+file
+            print("Could not write message '"+message+"' to file "+file)
 
 def err(file,message):
     """write message to log file and shell"""
@@ -93,7 +93,7 @@ def history(taskname, plist, slist, logfile, verbose):
         history='%s--' % taskname.upper()
         for i in range(len(plist)):
             history += '%s=%s ' % (slist[i], plist[i])
-    except Exception, e:
+    except Exception as e:
         message='SALTPRINT.history--ERROR:  Could not create output history string because %s' % e
         status=err(logfile, message)
 

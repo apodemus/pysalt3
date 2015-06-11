@@ -35,7 +35,7 @@ Module containing generic graphical user interface widgets.
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 import matplotlib.cm
 
 # General imports
@@ -111,7 +111,7 @@ class MplCanvas(FigureCanvas):
 
     def onKeyPress(self, event):
         """Overload this function to implement mousebutton press events."""
-        print "I'm here:", event, dir(event)
+        print("I'm here:", event, dir(event))
         pass
 
     def onKeyRelease(self, event):
@@ -266,7 +266,7 @@ class ImageDisplay(MplCanvas):
         self.drawImage()
 
         # Draw patches
-        for key in self.patches.keys():
+        for key in list(self.patches.keys()):
             self.axes.add_patch(self.patches[key])
 
         if keepzoom:

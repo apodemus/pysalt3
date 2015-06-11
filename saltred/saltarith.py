@@ -25,7 +25,7 @@ Updates
 
 
 """
-from __future__ import with_statement
+
 
 import time, numpy
 from pyraf import iraf
@@ -70,7 +70,7 @@ def saltarith(operand1, op, operand2, result, outpref, divzero=0, clobber=False,
            outstruct = arith(struct, op, operand2struct, is_image, divzero)
            try:
                pass 
-           except Exception,e:
+           except Exception as e:
                msg='Unable to do math %s because %s' % (infile, e)
                raise SaltError(msg)
 

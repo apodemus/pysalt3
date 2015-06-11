@@ -217,7 +217,7 @@ def numLeapSeconds(year):
     elif 2009<=year:
         leapSec=34.0
     elif year<1999:
-        print "Invalid time.  Please enter a date post-1999 for accurate leap year calculations."
+        print("Invalid time.  Please enter a date post-1999 for accurate leap year calculations.")
     
     return leapSec
 # -----------------------------------------------

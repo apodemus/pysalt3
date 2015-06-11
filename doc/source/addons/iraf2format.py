@@ -34,7 +34,7 @@
 
 """Tool to convert IRAF style help files to ReStructuredText or XML format."""
 
-from __future__ import with_statement
+
 
 import re
 import xml.dom.minidom
@@ -272,4 +272,4 @@ def help2Xml(file):
 
 if __name__ == "__main__":
     import sys
-    print help2ReStructuredText(str(sys.argv[1]))
+    print(help2ReStructuredText(str(sys.argv[1])))

@@ -52,7 +52,7 @@ Updates
 
 """
 
-from __future__ import with_statement
+
 
 import time, numpy
 from pyraf import iraf
@@ -153,7 +153,7 @@ def saltflat(images,outimages,outpref, flatimage,minflat=1, allext=False, clobbe
            outstruct = flat(struct, flatstruct)
            try:
                pass 
-           except Exception,e:
+           except Exception as e:
                msg='Unable to flatten %s because %s' % (infile, e)
                raise SaltError(msg)
 
@@ -181,7 +181,7 @@ def flatnormalize(data, minflat, fmean=1):
         mask = (data < minflat) + (data == numpy.nan) + (data == numpy.inf)
         data[mask]=minflat
         data=data/fmean
-    except Exception, e:
+    except Exception as e:
         message='ERROR--FLATNORMALIZE:  Data could not be normalized because %s' % e
         raise SaltError(message)
 

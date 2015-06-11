@@ -42,7 +42,7 @@
 # --Has to be in the directory to work properly
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 
 import os, time, glob, string

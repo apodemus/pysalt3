@@ -7,7 +7,7 @@ entries in order
 class OrderedDict(dict):
     def __init__(self, *args, **kwargs):
         dict.__init__(self, *args, **kwargs)
-        self._order = self.keys()
+        self._order = list(self.keys())
 
     def __setitem__(self, key, value):
         dict.__setitem__(self, key, value)

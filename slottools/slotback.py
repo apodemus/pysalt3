@@ -36,7 +36,7 @@ subtracted image or the background image.
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -141,7 +141,7 @@ def slotback(images,outfits,extension,imgtype='image',subbacktype='median',
                         header=struct[hdu].header
                         array=struct[hdu].data
                         array=array*1.0
-                    except Exception, e:
+                    except Exception as e:
                         msg='Unable to open extension %i in image %s because %s' % (hdu, infile, e)
                         raise SaltIOError(msg)
     
@@ -192,7 +192,7 @@ def slotback(images,outfits,extension,imgtype='image',subbacktype='median',
                        hdue.header=header
                        hdue.header.update('ONAME',infile,'Original image name')
                        hdue.header.update('OEXT',hdu,'Original extension number')
-                    except Exception, e:
+                    except Exception as e:
                        msg='SALTPHOT--WARNING:  Could not update image in newfits file for %s ext %i because %s' \
                            % (infile, hdu, e)
                        raise SaltIOError(msg)
@@ -208,7 +208,7 @@ def slotback(images,outfits,extension,imgtype='image',subbacktype='median',
            # write out the file
            hduList.flush()
            hduList.close()
-        except Exception, e:
+        except Exception as e:
            raise SaltIOError('Failed to write %s because %s' % (outfits, e))
     
 # -----------------------------------------------------------

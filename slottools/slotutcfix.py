@@ -52,7 +52,7 @@ timing of the frames is based on the reading out the wrong number of frames.
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -186,7 +186,7 @@ def slotutcfix(images,update,outfile,ampperccd,ignorexp,droplimit,inter,plotdata
                     utc_list.append(saltsafekey.get('UTC-OBS', struct[i], infile))
                     utc_arr[j]=slottool.getobstime(struct[i], infile)
                     j += 1
-                except Exception, e:
+                except Exception as e:
                     raise SaltIOError('Unable to create array of UTC times.  Please check the number of extensions in the files')
 
             # close FITS file
@@ -282,7 +282,7 @@ def slotutcfix(images,update,outfile,ampperccd,ignorexp,droplimit,inter,plotdata
                     real_expt=saltsafeio.ask(message)
                     try:
                         real_expt=float(real_expt)
-                    except Exception, e:
+                    except Exception as e:
                         msg='Could not set user dwell time because %s' % e
                         raise SaltError(msg)
 
@@ -349,7 +349,7 @@ def updateheaders(struct, ext, tdiff, real_expt, utc, infile):
         ntime=salttime.sex2dec(utc)
         ntime=ntime-tdiff/3600.0
         newutc=salttime.dec2sex(ntime)
-    except Exception,e:
+    except Exception as e:
         msg='Could not update UTC in %i header of image %s because %s' % (ext, infile, e)
         raise SaltError(msg)
 
@@ -365,7 +365,7 @@ def updateheaders(struct, ext, tdiff, real_expt, utc, infile):
                 saltsafekey.put('TIME-OBS', newutc, struct, infile)
                 saltsafekey.new('DWETIME', expt_string, 'Dwell Time', struct, infile)
                 saltsafekey.new('DUTC', td_string, 'Change in UTC time', struct, infile)
-            except Exception, e:
+            except Exception as e:
                 msg='Could not update %i header of image %s because %s' % (ext, infile, e)
                 raise SaltIOError(msg)
         else:
@@ -374,7 +374,7 @@ def updateheaders(struct, ext, tdiff, real_expt, utc, infile):
                 saltsafekey.put('TIME-OBS', newutc, struct, infile)
                 saltsafekey.put('DWETIME', real_expt, struct, infile)
                 saltsafekey.put('DUTC', tdiff, struct, infile)
-            except Exception, e:
+            except Exception as e:
                 msg='Could not update %i header of image %s because %s' % (ext, infile, e)
                 raise SaltError(msg)
     else:
@@ -411,7 +411,7 @@ def calculate_realexptime(id_arr, utc_arr, dsec_arr, diff_arr, req_texp, utc_lis
     try:
         t_start=t[0]
         dt=t[1:]-t[0]
-    except Exception, e:
+    except Exception as e:
         msg='Unable to set up necessary arrays because %s' % e
         raise SaltError(msg)
 
@@ -422,7 +422,7 @@ def calculate_realexptime(id_arr, utc_arr, dsec_arr, diff_arr, req_texp, utc_lis
     try:
         t_arr, ysum_arr=find_real_time(dt, req_texp, t_max)
         t_real=t_arr[ysum_arr.argmin()]
-    except Exception, e:
+    except Exception as e:
         msg='Unable to calculate real dwell time because %s' % e
         raise SaltError(msg)
 

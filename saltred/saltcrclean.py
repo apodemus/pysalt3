@@ -53,7 +53,7 @@ Updates
                 -re-factored so it now each task only returns the crarr
 """
 
-from __future__ import with_statement
+
 
 
 import os, time, pyfits
@@ -217,7 +217,7 @@ def multicrclean(struct, crtype='fast', thresh=5, mbox=5, bbox=11, bthresh=3, fl
                 b_i=saltkey.get('BPMEXT', struct[i])
                 try:
                    struct[b_i].data[mask]=1
-                except Exception, e:
+                except Exception as e:
                    msg='Cannot update the BPM frame in %s[%i] because %s' % (infile, b_i, e)
                    raise SaltError(msg)
    return struct
@@ -292,7 +292,7 @@ def crclean(struct, crtype='fast', thresh=5, mbox=5, bbox=11, bthresh=3, flux_ra
                 b_i=saltkey.get('BPMEXT', struct[i])
                 try:
                    struct[b_i].data[mask]=1
-                except Exception, e:
+                except Exception as e:
                    msg='Cannot update the BPM frame in %s[%i] because %s' % (infile, b_i, e)
                    raise SaltError(msg)
 

@@ -20,7 +20,7 @@ LIMITATIONS
 
 """
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -161,17 +161,17 @@ def arcstraight(data, xarr, istart, ws=None, function='poly', order=3,
     # extract the central row
     oxarr = xarr.copy()
     ofarr = data[istart]
-    print function, order
+    print(function, order)
     ws = WavelengthSolution.WavelengthSolution(xarr, xarr, function, order)
     ws.fit()
-    print ws.coef
+    print(ws.coef)
     ImageSolution[istart] = ws
     if dcoef is None:
         docef = ws.coef * 0.0
         dcoef[0] = 10.0
     else:
         dcoef = np.array(dcoef)
-    print dcoef
+    print(dcoef)
 
     data = nd.gaussian_filter(data, 3)
 
@@ -193,7 +193,7 @@ def arcstraight(data, xarr, istart, ws=None, function='poly', order=3,
                 inttype='interp',
                 debug=False)
             ImageSolution[k] = nws
-            print k, nws.coef
+            print(k, nws.coef)
 
     return ImageSolution
 
@@ -204,7 +204,7 @@ def writeIS(ImageSolution, outfile, dateobs=None, utctime=None, instrume=None,
             filename=None, log=None, verbose=False):
 
     # set up the list of solutions to into an array
-    key_arr = np.array(ImageSolution.keys())
+    key_arr = np.array(list(ImageSolution.keys()))
     arg_arr = key_arr.argsort()
 
     # set up the wavelength solution

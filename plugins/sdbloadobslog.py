@@ -20,7 +20,7 @@ import saltsafemysql as saltmysql
 
 def sdbloadobslog(logstr, obsdate, sdbhost, sdbname, sdbuser, password):
     """Load logstr into the SDB"""
-    print logstr
+    print(logstr)
     #connect to the db
     sdb=saltmysql.connectdb(sdbhost, sdbname, sdbuser, password)
 
@@ -44,6 +44,6 @@ def sdbloadobslog(logstr, obsdate, sdbhost, sdbname, sdbuser, password):
         insert_cmd="NightInfo_Id=%i, ObsLogTable='%s'" % (night_id, logstr)
         saltmysql.insert(sdb, insert_cmd, 'ObsLogTable')
     
-    print obsdate, night_id
+    print(obsdate, night_id)
 
 

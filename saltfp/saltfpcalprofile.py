@@ -40,7 +40,7 @@ Updates:
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -51,7 +51,7 @@ from pyraf import iraf
 from pyraf.iraf import pysalt
 import saltsafekey
 import saltsafeio
-import fpsafeio
+from . import fpsafeio
 from saltsafelog import logging
 
 # This reads the FORTRAN config file if it exists
@@ -274,7 +274,7 @@ def saltfpcalprofile(axc,ayc,arad,rxc,ryc,filter, filterfreq,filterwidth,plottyp
 #        print dir, ' directory with data'
         outfile = outfile.strip()
         if os.path.isfile(outfile):
-            print 'output file exists, appending'
+            print('output file exists, appending')
 #            saltsafeio.delete(outfile)
 
 
@@ -297,9 +297,9 @@ def saltfpcalprofile(axc,ayc,arad,rxc,ryc,filter, filterfreq,filterwidth,plottyp
             
         
     
-        print dir, infile, outfile, 'input directory, input and output files'
+        print(dir, infile, outfile, 'input directory, input and output files')
         if basein[0] == '@':
-            print infiles,'infiles'
+            print(infiles,'infiles')
 
         # Get current working directory as the Fortran code changes dir
         startdir = os.getcwd()

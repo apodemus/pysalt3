@@ -31,7 +31,7 @@
 ############################################################################
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 
@@ -44,7 +44,7 @@ def autogen(list,output_path):
     *output_path* output module documentation goes in this directory.
     """
 
-    print 'Autogenerating module documentation for modules in',list
+    print('Autogenerating module documentation for modules in',list)
 
     # Read modules from list file
     with open(list) as f:
@@ -56,12 +56,12 @@ def autogen(list,output_path):
             exec('import %s' % m)
             exec('del %s' % m)
         except:
-            print 'Module',m,'cannot be imported no documentation will be generated.'
+            print('Module',m,'cannot be imported no documentation will be generated.')
             continue
 
         # Check if documentation file exists
         if os.path.isfile(output_path.rstrip('/')+'/'+m+'.rst'):
-            print 'Module documentation for',m,'exists, skipping.'
+            print('Module documentation for',m,'exists, skipping.')
             continue
 
         # Write empty configuration file

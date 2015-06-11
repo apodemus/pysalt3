@@ -58,7 +58,7 @@
 #               contents without updating everything in the process
 #               Converted it to using dictionary instead of a bunch of lists
 
-from __future__ import with_statement
+
 
 from pyraf import iraf
 import os, glob, time, pyfits
@@ -117,13 +117,13 @@ def createobslogfits(headerDict):
    # define generic columns of output table
    col=[]
    for k, f in zip(headerList, formatList):
-       print k,f, headerDict[k]
+       print(k,f, headerDict[k])
        col.append(pyfits.Column(name=k, format=f, array=headerDict[k]))
    for k, f in zip(scamheaderList, scamformatList):
-       print k,f, headerDict[k]
+       print(k,f, headerDict[k])
        col.append(pyfits.Column(name=k, format=f, array=headerDict[k]))
    for k, f in zip(rssheaderList, rssformatList):
-       print k,f, headerDict[k]
+       print(k,f, headerDict[k])
        col.append(pyfits.Column(name=k, format=f, array=headerDict[k]))
    # construct FITS table from columns
    table = saltio.fitscolumns(col)

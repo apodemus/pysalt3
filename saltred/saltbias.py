@@ -52,7 +52,7 @@
 
 """
 
-from __future__ import with_statement
+
 
 import os, string, sys, glob, pyfits, time
 from pyraf import iraf
@@ -278,7 +278,7 @@ def bias(struct,subover=True,trim=True, subbias=False, bstruct=None,
                    vdata[vdata<rdnoise**2]=rdnoise**2
                    struct[vhdu].data=vdata+osigma**2
 
-               except Exception, e:
+               except Exception as e:
                     msg='Cannot update the variance frame in %s[%i] because %s' % (infile, vhdu, e)
                     raise SaltError(msg)
 
@@ -317,7 +317,7 @@ def bias(struct,subover=True,trim=True, subbias=False, bstruct=None,
                try:
                    vdata=struct[vhdu].data
                    struct[vhdu].data=vdata+bstruct[vhdu].data
-               except Exception, e:
+               except Exception as e:
                     msg='Cannot update the variance frame in %s[%i] because %s' % (infile, vhdu, e)
                     raise SaltError(msg)
  

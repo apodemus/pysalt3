@@ -168,10 +168,10 @@ class FinalizeTab:
         self.writexml2file('Slitmask.xml')
         # get the finder chart image to package with the rsmt zipfile.
         try:
-             print 'writing with image'
+             print('writing with image')
              self.writeFC(image=self.inimage, outfile='Slitmask.png')
         except:
-             print 'writing without image'
+             print('writing without image')
              self.writeFC(outfile='Slitmask.png')
         rsmtfile = zipfile.ZipFile(rsmtoutfilename, mode='w')
         try:
@@ -180,7 +180,7 @@ class FinalizeTab:
         finally:
             rsmtfile.close()
 
-        print 'Finished writing rsmt file'
+        print('Finished writing rsmt file')
 
     def writexml(self):
         '''
@@ -241,7 +241,7 @@ class FinalizeTab:
             xmlfile = tmpfile
 
         #create the finding chart
-        print 'running finderchart', xmlfile, image, self.fcfile
+        print('running finderchart', xmlfile, image, self.fcfile)
         finderchart(xmlfile, image=image, outfile=self.fcfile)
         
 #        remove any temporary files

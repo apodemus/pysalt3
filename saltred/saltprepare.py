@@ -39,7 +39,7 @@ UPDATES
              -updated to create variance and bad pixel frames
 """
 
-from __future__ import with_statement
+
 
 import numpy as np 
 
@@ -78,7 +78,7 @@ def saltprepare(images,outimages,outpref,createvar=False, badpixelimage=None, cl
        else:
            try:
                badpixelstruct = saltio.openfits(badpixelimage)
-           except saltio.SaltIOError,e:
+           except saltio.SaltIOError as e:
                msg='badpixel image must be specificied\n %s' % e
                raise SaltError(msg)
 
@@ -158,7 +158,7 @@ def prepare(struct,createvar=False, badpixelstruct=None, namps=2):
        for i in range(1, nsciext+1):
            try:
                hdu=CreateVariance(struct[i], i, nextend+i)
-           except Exception, e: 
+           except Exception as e: 
                msg='Cannot create variance frame in extension %i of  %s because %s' % (nextend+i, infile, e)
                raise SaltError(msg) 
            struct[i].header.update('VAREXT',nextend+i, comment='Extension for Variance Frame')
@@ -169,7 +169,7 @@ def prepare(struct,createvar=False, badpixelstruct=None, namps=2):
        for i in range(1, nsciext+1):
            try:
                hdu=createbadpixel(struct, badpixelstruct, i, nextend+i)
-           except Exception, e: 
+           except Exception as e: 
                msg='Could not create bad pixel extension in ext %i of %s because %s' % (nextend+i, infile, e)
                raise SaltError(msg) 
            struct[i].header.update('BPMEXT',nextend+i, comment='Extension for Bad Pixel Mask')

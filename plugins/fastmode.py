@@ -74,8 +74,8 @@ Block join Pointing using (Block_Id)
    #print 'Select %s from %s where %s' % (select_term, from_term, where_term)
    try:
        record=saltmysql.select(sdb, select_term, from_term, where_term)
-   except Exception, e:
-       print e
+   except Exception as e:
+       print(e)
        return None
    #print "Checking for fast data"
    #print record
@@ -95,7 +95,7 @@ Block join Pointing using (Block_Id)
       y=os.system('scp %s sa@saltpipe:/salt/ftparea/%s/fast%s/' % (filename, username, obsdate))
   
    if y!=0:
-      print "Problem with copying file %s to /salt/ftparea/%s/fast%s/"  % (filename,  username, obsdate)
+      print("Problem with copying file %s to /salt/ftparea/%s/fast%s/"  % (filename,  username, obsdate))
 
    #copy the reduced data
    y=os.system('scp mbxp%s sa@saltpipe:/salt/ftparea/%s/fast%s/' % (os.path.basename(filename), username, obsdate))
@@ -104,21 +104,21 @@ Block join Pointing using (Block_Id)
    #if it is the first object file, check to see if an email has been
    #sent, and if not, send email
    #try to copy the spectroscopic data
-   print filename, filename.startswith('P')
+   print(filename, filename.startswith('P'))
    if os.path.basename(filename).startswith('P'):
        sfilename='smbxp%s.txt' % (os.path.basename(filename).split('.fits')[0])
-       print sfilename
+       print(sfilename)
        try:
            y=os.system('scp %s sa@saltpipe:/salt/ftparea/%s/fast%s/' % (sfilename, username, obsdate))
-       except Exception, e:
-           print e
+       except Exception as e:
+           print(e)
    if os.path.basename(filename).startswith('S'):
        try:
            sfilename='mbxp%s.cat' % (os.path.basename(filename).split('.fits')[0])
-           print sfilename
+           print(sfilename)
            y=os.system('scp %s sa@saltpipe:/salt/ftparea/%s/fast%s/' % (sfilename, username, obsdate))
-       except Exception, e:
-           print e
+       except Exception as e:
+           print(e)
  
 
    #check to see if an email has been sent
@@ -130,12 +130,12 @@ join NightInfo using (NightInfo_Id)
 join ProposalCode using (ProposalCode_Id)
 '''
    where_term="Proposal_Code like '%s' and Date='%s-%s-%s'" % (propcode, obsdate[0:4], obsdate[4:6], obsdate[6:8])
-   print select_term, from_term, where_term
+   print(select_term, from_term, where_term)
    try:
      record=saltmysql.select(sdb, select_term, from_term, where_term)[0][0]
    except:
      record=None
-   print record
+   print(record)
 
    if record=='FastEmail':
       return
@@ -170,5 +170,5 @@ def getrawfilepath(filename):
        ddir='salt/rss/'
        i=filename.index('P')
        filedate=saltstring.filedate(filename[i:])
-    print ddir, filedate
+    print(ddir, filedate)
     return '%s%s/%s/raw/%s' % (ddir, filedate[0:4], filedate[4:8], filename)

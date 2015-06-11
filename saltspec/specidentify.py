@@ -32,7 +32,7 @@ LIMITATIONS
 
 """
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -172,7 +172,7 @@ def specidentify(images, linelist, outfile, guesstype='rss', guessfile='',
                     # set up the data for the source
                     try:
                         data = hdu[i].data
-                    except Exception, e:
+                    except Exception as e:
                         message = 'Unable to read in data array in %s because %s' % (
                             img, e)
                         raise SALTSpecError(message)
@@ -293,7 +293,7 @@ def writeIS(ImageSolution, outfile, dateobs=None, utctime=None, instrume=None,
             filename=None, log=None, verbose=False):
 
     # set up the list of solutions to into an array
-    key_arr = np.array(ImageSolution.keys())
+    key_arr = np.array(list(ImageSolution.keys()))
     arg_arr = key_arr.argsort()
 
     # set up the wavelength solution

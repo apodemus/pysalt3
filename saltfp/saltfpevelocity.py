@@ -39,7 +39,7 @@ Updates:
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -50,7 +50,7 @@ from pyraf import iraf
 from pyraf.iraf import pysalt
 import saltsafekey
 import saltsafeio
-import fpsafeio
+from . import fpsafeio
 from saltsafelog import logging
 
 import evelocity_wrapper2
@@ -68,7 +68,7 @@ def saltfpevelocity(infile,existfit,xc,yc,rmax,logfile, verbose):
     pathlog = os.path.dirname(logfile)
     baselog = os.path.basename(logfile)
 
-    print pathin, basein
+    print(pathin, basein)
     
 # start log now that all parameters are set up          
     with logging(logfile, debug) as log:
@@ -90,7 +90,7 @@ def saltfpevelocity(infile,existfit,xc,yc,rmax,logfile, verbose):
 # format is 4x dummy lines, then a line/lines containing: x,y,wave0,sn,norm,dnorm,filename
 
         testfile= open(infile)
-        print testfile
+        print(testfile)
         for i in range(1, 5):
             line = testfile.readline()
 
@@ -114,8 +114,8 @@ def saltfpevelocity(infile,existfit,xc,yc,rmax,logfile, verbose):
 
 # If all looks OK, run the FORTRAN code
     
-        print infile,  'input filename'
-        print existfit, xc, yc, rmax
+        print(infile,  'input filename')
+        print(existfit, xc, yc, rmax)
 
         evelocity_wrapper2.evelocity2(infile,existfit,xc,yc,rmax)
 

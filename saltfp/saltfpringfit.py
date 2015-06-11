@@ -44,7 +44,7 @@ of the points available to determine the ring parameters.
 
 """
 
-from __future__ import with_statement
+
 
 import os
 import pyfits
@@ -65,7 +65,7 @@ from PySpectrograph.Spectra import findobj
 
 from salterror import SaltError
 
-from FPRing import FPRing
+from .FPRing import FPRing
 
 import pylab as pl
 
@@ -91,7 +91,7 @@ def saltfpringfit(images, outfile, section=None, bthresh=5, niter=5,
            raise SaltError(msg)
        else:
            section=saltio.getSection(section)
-       print section
+       print(section)
 
        # open each raw image file
        for img in infiles:
@@ -114,7 +114,7 @@ def saltfpringfit(images, outfile, section=None, bthresh=5, niter=5,
 
           if displayimage:
              regfile=img.replace('.fits', '.reg')
-             print regfile
+             print(regfile)
              if clobber and os.path.isfile(regfile): fout=saltio.delete(regfile)
              fout=open(regfile, 'w')
              fout.write("""# Region file format: DS9 version 4.1
@@ -123,7 +123,7 @@ global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=
 physical
 """ % img)
              for ring in ring_list:
-                 print ring
+                 print(ring)
                  fout.write('circle(%f, %f, %f)\n' % (ring.xc,ring.yc,ring.prad))
                  fout.write('circle(%f, %f, %f)\n' % (ring.xc,ring.yc,ring.prad-5*ring.sigma))
                  fout.write('circle(%f, %f, %f)\n' % (ring.xc,ring.yc,ring.prad+5*ring.sigma))
@@ -150,7 +150,7 @@ def findpeaks(data, fpeak=0.8,minsize=10):
     #find all the objects
     obj_arr, obj_num=nd.label(mask)
     
-    print obj_arr, obj_num
+    print(obj_arr, obj_num)
     #ypeaks
     peaks=[]
     for i in range(obj_num):
@@ -169,7 +169,7 @@ def findrings(data, thresh=5, niter=5, minsize=10):
     #first guess the middle is in the middle of the data
     xc=int(0.5*len(data[0]))
     yc=int(0.5*len(data))
-    print xc,yc
+    print(xc,yc)
     #take a look at the y cut through the data
     xdata=data[yc,:]
     #take a look through the xdata.  check for the same thing and make sure they are consistent
@@ -178,13 +178,13 @@ def findrings(data, thresh=5, niter=5, minsize=10):
     #ydata=nd.filters.median_filter(ydata, size=minsize)
     #get rid of all the lower points
     #find the peaks in the data
-    print xdata.mean(), xdata.max(), xdata.std()
+    print(xdata.mean(), xdata.max(), xdata.std())
     #ypeak_list=findobj.findLines(ydata, method='median', thresh=thresh, niter=niter, minsize=minsize)
     #xpeak_list=findobj.findLines(xdata, method='median', thresh=thresh, niter=niter, minsize=minsize)
     ypeak_list=findpeaks(ydata, 0.4, 10)
     xpeak_list=findpeaks(xdata, 0.4, 10)
-    print xpeak_list 
-    print ypeak_list
+    print(xpeak_list) 
+    print(ypeak_list)
     pl.figure()
     pl.plot(ydata)
     pl.savefig('out.png')
@@ -201,10 +201,10 @@ def findrings(data, thresh=5, niter=5, minsize=10):
        raise SaltError(msg)
     elif nrings==1:
        msg="One ring dected in image"
-       print msg
+       print(msg)
     else:
        msg="%i rings found in image" % nrings
-       print msg
+       print(msg)
 
 
     #loop through the image and determine parameters of rings
@@ -249,7 +249,7 @@ def findrings(data, thresh=5, niter=5, minsize=10):
            xmax=xdata.max()
 
        #print the results
-       print xc,yc,max(yrad,xrad), max(xmax,ymax), max(xsig,ysig)
+       print(xc,yc,max(yrad,xrad), max(xmax,ymax), max(xsig,ysig))
         
        ring_list.append(FPRing(xc, yc, max(yrad,xrad), max(xmax,ymax), max(xsig,ysig)))
  

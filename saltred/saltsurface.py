@@ -25,7 +25,7 @@ Updates
 
 """
 
-from __future__ import with_statement
+
 
 import time, numpy
 from pyraf import iraf
@@ -104,7 +104,7 @@ def surface_fit(struct,order=3, mask=True, minlevel=0):
             coef=fit_surface(struct[i].data, mask=mask_arr, xorder=order, yorder=order, xyorder=0)
             y, x = np.indices(struct[i].data.shape)
             sf=surface(coef, xorder=order, yorder=order, xyorder=0)
-            print coef
+            print(coef)
             struct[i].data=sf(x,y)
 
             #Account for variance frames 

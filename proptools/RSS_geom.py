@@ -220,13 +220,13 @@ def FindCollisions(slit_ra,slit_dec,slit_length,slit_width,cra,cdec,rotang,equin
     # dumb but reliable way of checking:
     for ii in range(np.size(tx0)):
 
-        if idebug: print ii
+        if idebug: print(ii)
         
         tcoll_ids=[]
         for jj in range(np.size(tx0)):
             # -- check if this rectangle overlaps with any currently in mask:
             if ii == jj: continue # don't compare slit with itself
-            if idebug: print 'comparing slit ',ii,' with ',jj
+            if idebug: print('comparing slit ',ii,' with ',jj)
 # http://tech-read.com/2009/02/06/program-to-check-rectangle-overlapping/
             r1x1=tx0[ii]
             r1x2=tx1[ii]
@@ -249,7 +249,7 @@ def FindCollisions(slit_ra,slit_dec,slit_length,slit_width,cra,cdec,rotang,equin
                     (r1x1 <= r2x2) and \
                     (r1y1 <= r2y2)) : coll_flag[ii]='true'
 #            else: olap=0
-            if idebug: print r1y1,r1y2,r2y1,r2y2
+            if idebug: print(r1y1,r1y2,r2y1,r2y2)
             
             #if (r1y2 >= r2y1) and (r1y1 <= r2y2) : olap=1
 

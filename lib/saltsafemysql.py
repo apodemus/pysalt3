@@ -63,9 +63,9 @@ def connectelsview(host, dbname,user,passwd):
     try:
        orig_conv = MySQLdb.converters.conversions
        conv_iter = iter(orig_conv)
-       convert = dict(zip(conv_iter, [str,] * len(orig_conv.keys())))
+       convert = dict(list(zip(conv_iter, [str,] * len(list(orig_conv.keys())))))
        db = MySQLdb.connect(host=host,db=dbname,user=user,passwd=passwd, conv=convert)
-    except Exception, e:
+    except Exception as e:
        message = 'Cannot connect to %s due to %s' % (host, str(e))
        raise SALTMySQLError(message)
 
@@ -87,7 +87,7 @@ def select(db, selection, table, logic):
         record = cursor.fetchall()
         cursor.close()
 
-    except Exception, e:
+    except Exception as e:
         message = 'Cannot read value because %s in call:\n %s' % (e, exec_command)
         raise SALTMySQLError(message)
 
@@ -104,7 +104,7 @@ def insert(db, insertion, table):
         cursor.execute(exec_command)
         cursor.execute("COMMIT")
 
-    except Exception, inst:
+    except Exception as inst:
         message = 'Cannot insert into %s because %s for call: \n %s' % (table, inst, exec_command)
         raise SALTMySQLError(message)
 
@@ -124,7 +124,7 @@ def update(db, insertion, table, logic):
         cursor.execute(exec_command)
         cursor.execute("COMMIT")
 
-    except Exception, inst:
+    except Exception as inst:
         message = 'Cannot insert into ' + table + '\n'
         message = message + inst[1]
         message = 'Cannot update into %s because %s for call: \n %s' % (table, inst, exec_command)
@@ -145,7 +145,7 @@ def delete(db, table,logic):
         cursor.execute(exec_command)
         cursor.execute("COMMIT")
 
-    except Exception, inst:
+    except Exception as inst:
         message = 'Cannot delete  entry in ' + table + '\n'
         message = message + inst
         raise SALTMySQLError(message)
@@ -253,13 +253,13 @@ def create_insert(db, ImageHeader, FileNameString, PipelineFileNameString):
         TelDec=sex2dec(ImageHeader['TELDEC'])
         TelRAString='%10.7f' % TelRA
         TelDecString='%10.7f' % TelDec
-    except Exception, e:  
+    except Exception as e:  
         UTStartString='1000-01-01 00:00:00'
         TelRAString='0.00000'
         TelDecString='100.0000'
     try:
         PipelineStartString=datatimeobs2DateTime(ImageHeader['SAL-TLM'])
-    except Exception, inst:
+    except Exception as inst:
         PipelineStartString='1000-01-01 00:00:00'
 
     #set the number of exposures
@@ -282,7 +282,7 @@ def create_insert(db, ImageHeader, FileNameString, PipelineFileNameString):
     try:
         name=os.path.basename(FileNameString).split('.')[0]
         date = '%s-%s-%s' % (name[1:5], name[5:7], name[7:9])
-    except Exception, e:
+    except Exception as e:
         message='Could not determine the date for %s because %s' \
             % (FileNameString, e)
         raise SALTMySQLError(message)
@@ -341,7 +341,7 @@ def create_insert(db, ImageHeader, FileNameString, PipelineFileNameString):
         insert_command += "FileSize='%i'"%filesize
         if BlockString: insert_command += ",Block_Id='%s'"%BlockString
         if BlockVisitString: insert_command += ",BlockVisit_Id='%s'"%BlockVisitString
-    except Exception, e:
+    except Exception as e:
         message='Could not create insert command because %s' % e
         raise SALTMySQLError(message)
 
@@ -401,7 +401,7 @@ def updateFitsHeaders(db, imageStruct, FileData_Id, log=None):
 
     try:
         ImageHeader=imageStruct[0].header
-    except Exception, e:
+    except Exception as e:
         message='Cannot extract image header information because %s' %e
         raise SALTMySQLError(message)
 
@@ -472,9 +472,9 @@ def updatefitstable(db, Table, ImageHeader, logic):
                    updateheaderinfo(db,Table,ImageHeader,ColumnName, HeaderName,column,logic)
                 except KeyError:
                    pass 
-                except SALTMySQLError, e:
+                except SALTMySQLError as e:
                    pass    
-    except Exception, e:
+    except Exception as e:
         message='Failed to update %s because %s' % (Table, e)
         raise SALTMySQLError(message)
 
@@ -486,7 +486,7 @@ def updateheaderinfo(db,Table,ImageHeader, ColumnName, HeaderName,column,logic):
 
     HeaderString=ImageHeader[HeaderName]
 
-    if type(HeaderString)==types.StringType:
+    if type(HeaderString)==bytes:
         HeaderString=HeaderString.strip()
         try:
             maxChar=int(findNum.search(column[1]).groups()[0])
@@ -495,9 +495,9 @@ def updateheaderinfo(db,Table,ImageHeader, ColumnName, HeaderName,column,logic):
             insertString="%s='%s'"% (ColumnName,HeaderString)
         except:
             insertString="%s='%s'"% (ColumnName,HeaderString)
-    elif type(HeaderString)==types.FloatType:
+    elif type(HeaderString)==float:
         insertString='%s=%f'% (ColumnName,HeaderString)
-    elif type(HeaderString)==types.IntType:
+    elif type(HeaderString)==int:
         insertString='%s=%i'% (ColumnName,HeaderString)
     else:
         #print HeaderString, ColumnName

@@ -166,7 +166,7 @@ def writefits(struct,file,logfile):
     status = 0
     try:
         struct.writeto(file)
-    except Exception, e:
+    except Exception as e:
         message = 'ERROR -- SALTIO.WRITE: cannot write %s because %s' % (file, e)
         status = saltprint.err(logfile,message)
     return status
@@ -194,7 +194,7 @@ def writeimage(struct,hdu,imagedata,logfile):
     status = 0
     try:
         struct[hdu].data = imagedata
-    except Exception, e:
+    except Exception as e:
         message = 'ERROR -- SALTIO.WRITEIMAGE: Cannot write image data to HDU ' + str(hdu)
         message += ' because %s ' % e
         status = saltprint.err(logfile,message)
@@ -318,7 +318,7 @@ def delete(file,verbose,logfile):
     try:
         os.remove(file)
         saltprint.log(logfile,message,verbose)
-    except Exception, e:
+    except Exception as e:
         message = 'ERROR -- SALTIO.DELETE: Could not delete %s because %s' % (file ,e)
         status = saltprint.err(logfile,message)
     return status
@@ -434,7 +434,7 @@ def copydir(file1,file2,verbose,logfile):
     message = 'SALTIO.COPYDIR -- copied ' + file1 + ' to ' + file2
     try:
         shutil.copytree(file1,file2)
-    except Exception, e:
+    except Exception as e:
         message = 'ERROR -- SALTIO.COPYDIR: could not copy %s to %s because %s' % (file1,file2,e)
         status = saltprint.err(logfile,message)
 
@@ -788,8 +788,8 @@ def ask (msg, logfile):
     resp=''
     status=0
     try:
-        resp=raw_input(msg)
-    except Exception, e:
+        resp=input(msg)
+    except Exception as e:
         msg='ERROR--SALTIO.ASK: Could not get response because %s' % e
         status = saltprint.err(logfile,message)
 

@@ -42,7 +42,7 @@ Updates:
 
 """
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 
 import time, math
@@ -53,7 +53,7 @@ from pyraf.iraf import pysalt
 import saltprint, salttime
 import slottool as st
 
-import Tkinter as Tk
+import tkinter as Tk
 from matplotlib.widgets import Cursor, SpanSelector, Slider, CheckButtons
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 

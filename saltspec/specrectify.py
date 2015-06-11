@@ -35,7 +35,7 @@ LIMITATIONS
 
 """
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import string
@@ -153,7 +153,7 @@ def rectify(hdu, soldict, caltype='line', function='poly', order=3, inttype='int
     # check to see if there is more than one solution
     if caltype == 'line':
         if len(soldict) == 1:
-            sol = soldict.keys()[0]
+            sol = list(soldict.keys())[0]
             slitid = None
             if not matchobservations(
                     soldict[sol], instrume, grating, grang, arang, filtername, slitid):
@@ -435,7 +435,7 @@ def findlinesol(soldict, yc, nearest, timeobs, exptime,
 
     # if there is only one return that one
     if len(soldict) == 1:
-        sol = soldict.keys()[0]
+        sol = list(soldict.keys())[0]
         function = soldict[sol][7]
         order = soldict[sol][8]
         coef = findcoef(yc, soldict[sol][9], soldict[sol][10])
@@ -592,13 +592,13 @@ def entersolution(solfiles):
     if isinstance(solfiles, str):
         solfile = solfiles
         if solfile[-4:] == 'fits':
-            print 'Not supported yet'
+            print('Not supported yet')
         else:
             soldict = readsolascii(solfile, soldict)
     else:
         for solfile in solfiles:
             if solfile[-4:] == 'fits':
-                print 'Not supported yet'
+                print('Not supported yet')
             else:
                 soldict = readsolascii(solfile, soldict)
 

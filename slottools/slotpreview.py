@@ -33,7 +33,7 @@
 """Preview slotmode data and set-up config file for photometry."""
 
 # Ensure Python 2.5 compatibility
-from __future__ import with_statement
+
 
 # General imports
 import sys

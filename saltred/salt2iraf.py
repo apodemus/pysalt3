@@ -17,7 +17,7 @@ are ready to work with basic IRAF tasks
 """
 
 # Ensure Python 2.5 compatibility
-from __future__ import with_statement
+
 
 from astropy.io import fits
 from pyraf import iraf
@@ -53,7 +53,7 @@ def salt2iraf(images,outimages,outpref,ext=1, clobber=True,logfile='salt.log',
            log.message(message, with_header=False)
            try:
                convertsalt(img, oimg, ext=ext, clobber=clobber)
-           except SaltError, e:
+           except SaltError as e:
                log.message('%s' % e)
 
 def convertsalt(img, oimg, ext=1, clobber=True):

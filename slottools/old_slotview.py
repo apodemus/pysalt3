@@ -35,7 +35,7 @@ The input for the file is either the same input into slotphot or the output from
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 
 import time, math
@@ -46,7 +46,7 @@ from pyraf.iraf import pysalt
 import saltprint, salttime
 import slottool as st
 
-import Tkinter as Tk
+import tkinter as Tk
 from matplotlib.widgets import Cursor, SpanSelector, Slider, CheckButtons
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 
@@ -357,7 +357,7 @@ class makeplotdata(QtGui.QMainWindow):
     Right Click-Display image corresponding to this time
     Left Click and Drag-In light curve plot, zoom in on this region
         """
-        print helpmessage
+        print(helpmessage)
         return
 
     def setinfolabels(self):
@@ -373,7 +373,7 @@ class makeplotdata(QtGui.QMainWindow):
             oname=self.struct[int(self.pid[self.id])].header['ONAME']
             oext=self.struct[int(self.pid[self.id])].header['OEXT']
             oname=oname+'[%i]'%oext
-        except Exception, e:
+        except Exception as e:
             try:
                 oname=self.struct[0].header['OBJECT']
             except:
@@ -497,11 +497,11 @@ class makeplotdata(QtGui.QMainWindow):
                         self.ty[i]=self.ty[i-1]-dy
                     else:
                         message='Not able to perform photometry'
-                        print message
+                        print(message)
                         return
                 else:
                     message='Not able to perform photometry'
-                    print message
+                    print(message)
                     return
 
                 self.redophot(i)
@@ -644,7 +644,7 @@ class makeplotdata(QtGui.QMainWindow):
         saltprint.log(self.logfile, message, self.verbose)
 
     def callback(self, e):
-        print e.x, e.y
+        print(e.x, e.y)
 
     def stop(self):
         self.stopplay=False

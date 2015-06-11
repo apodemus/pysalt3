@@ -1,11 +1,11 @@
 #!/opt/local/bin/python
 
-import cStringIO
+import io
 import os
 import sys
 import xml
 import base64
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import xml.dom.minidom 
 import pyfits
 import ephem
@@ -25,7 +25,7 @@ def get_slitmask_xml(username, password, barcode):
 
     # We pass the parameters in a GET request.
     url = mask_url + '?username=%s&password=%s&Barcode=%s' % (encoded_username, encoded_password, barcode)
-    response = urllib2.urlopen(url)
+    response = urllib.request.urlopen(url)
     dom = xml.dom.minidom.parse(response)
 
     # Handle the case that the request wasn't successful.
@@ -37,15 +37,15 @@ def get_slitmask_xml(username, password, barcode):
 # grab 10' x 10' image from STScI server and pull it into pyfits
 def get_dss(imserver, ra, dec):
     url = "http://archive.stsci.edu/cgi-bin/dss_search?v=%s&r=%f&d=%f&e=J2000&h=10.0&w=10.0&f=fits&c=none" % (imserver, ra, dec)
-    fitsData = cStringIO.StringIO()
-    data = urllib2.urlopen(url).read()
+    fitsData = io.StringIO()
+    data = urllib.request.urlopen(url).read()
     fitsData.write(data)
     fitsData.seek(0)
     return pyfits.open(fitsData)
 
 # grab uploaded base64-encoded FITS
 def get_fits(b64str):
-    fitsData = cStringIO.StringIO()
+    fitsData = io.StringIO()
     fitsData.write(base64.b64decode(b64str))
     fitsData.seek(0)
     return pyfits.open(fitsData)

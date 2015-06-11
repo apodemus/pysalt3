@@ -40,7 +40,7 @@ Updates:
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -51,7 +51,7 @@ from pyraf import iraf
 from pyraf.iraf import pysalt
 import saltsafekey
 import saltsafeio
-import fpsafeio
+from . import fpsafeio
 from saltsafelog import logging
 
 # This reads the FORTRAN config file if it exists
@@ -95,10 +95,10 @@ def saltfpcalibrate(plottype,infile,outfile,calibratelogfile,logfile,verbose):
         else:
             dir = './'
 
-        print dir, ' directory with data'
+        print(dir, ' directory with data')
         outfile = outfile.strip()
         if os.path.isfile(outfile):
-            print 'output file exists, appending'
+            print('output file exists, appending')
 #            saltsafeio.delete(outfile)
 
 # check whether the calibrate logfile is defined

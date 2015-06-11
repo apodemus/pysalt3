@@ -48,7 +48,7 @@ class SlitMaskGui(QtGui.QMainWindow, InfoTab, CatalogTab, OptimizeTab, SlitTab, 
             self.ui.radioButtonInfo_Catalogue.setChecked(True)
             self.setmode2cat()
             self.entercatalog(infile)
-            print self.slitmask.center_ra, self.slitmask.center_dec
+            print(self.slitmask.center_ra, self.slitmask.center_dec)
             if self.slitmask.center_ra is None and self.slitmask.center_dec is None:
                 self.slitmask.set_MaskPosition()
                 self.displayfootprint()
@@ -232,7 +232,7 @@ class SlitMaskGui(QtGui.QMainWindow, InfoTab, CatalogTab, OptimizeTab, SlitTab, 
 
     def updatetabs(self):
        """Update all of the information after changes to the slitlet class"""
-       print 'Updating tabs'
+       print('Updating tabs')
        self.updatecatalogtable()
        self.updateslittable()
        self.updaterefstartable()
@@ -315,7 +315,7 @@ class SlitMaskGui(QtGui.QMainWindow, InfoTab, CatalogTab, OptimizeTab, SlitTab, 
             sra=self.slitlets.data['targ_ra'][i]
             sdec=self.slitlets.data['targ_dec'][i]
             found=False
-            for k in newslits.keys():
+            for k in list(newslits.keys()):
               ra = float(newslits[k][0][0])
               dec = float(newslits[k][0][1])
               if abs(sra-ra) < 0.0003 and abs(sdec-dec) < 0.0003:

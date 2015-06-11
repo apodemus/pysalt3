@@ -35,7 +35,7 @@ Module containing generic graphical user interface widgets.
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 import matplotlib.cm
 
 # General imports
@@ -557,7 +557,7 @@ class PhotometryConfigWidget(QtGui.QWidget):
             for i,obj in enumerate(['target','comparison']):
                 b_type='region'
                 if obj=='target':
-                    print obj, self.ui.tgtAnulusRadioButton.isChecked()
+                    print(obj, self.ui.tgtAnulusRadioButton.isChecked())
                     if self.ui.tgtAnulusRadioButton.isChecked(): b_type='annulus'
                 elif obj=='comparison':
                     if self.ui.cmpAnulusRadioButton.isChecked(): b_type='annulus'

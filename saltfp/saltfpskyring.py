@@ -44,7 +44,7 @@ TODO:
 """
 
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -57,7 +57,7 @@ from pyraf import iraf
 from pyraf.iraf import pysalt
 import saltsafekey
 import saltsafeio as saltio
-import fpsafeio
+from . import fpsafeio
 from saltsafelog import logging
 
 debug=True

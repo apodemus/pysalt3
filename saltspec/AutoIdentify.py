@@ -197,7 +197,7 @@ def runsolution(xarr, specarr, slines, sfluxes, ws, func, ivar=None,
     for i in range(0, int(0.5 * len(specarr)), rstep):
         for k in [istart - i, istart + i]:
 
-            if k in ImageSolution.keys():
+            if k in list(ImageSolution.keys()):
                 continue
 
             lws = getwsfromIS(k, ImageSolution, default_ws=ws)
@@ -261,7 +261,7 @@ def solution(xarr, farr, sl, sf, ws, func, min_lines=2,
         except IndexError as e:
             return None
         except Exception as e:
-            print e
+            print(e)
             return None
 
         return fws
@@ -276,7 +276,7 @@ def getwsfromIS(k, ImageSolution, default_ws=None):
     """
     if len(ImageSolution) == 0:
         return default_ws
-    ISkeys = np.array(ImageSolution.keys())
+    ISkeys = np.array(list(ImageSolution.keys()))
     ws = ImageSolution[ISkeys[abs(ISkeys - k).argmin()]]
     if ws is None:
         dist = abs(ISkeys[0] - k)

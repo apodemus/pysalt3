@@ -42,7 +42,7 @@ radius, and FWHM of a ring.
 
 """
 
-from __future__ import with_statement
+
 
 import os
 import pyfits
@@ -62,7 +62,7 @@ from PySpectrograph.Spectra import findobj
 
 from salterror import SaltError
 
-from fptools import findrings, findcenter
+from .fptools import findrings, findcenter
 
 import pylab as pl
 

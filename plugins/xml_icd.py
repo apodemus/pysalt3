@@ -20,7 +20,7 @@ Updates
 
 """
 import xml
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from lxml import etree
 
 
@@ -107,7 +107,7 @@ def parseICD(url="http://sgs.salt/xml/salt-tcs-icd.xml"):
        EW - mapped to a ICD_EW object defined here
        Array - mapped to a python list
     """
-    doc = etree.parse(urllib2.urlopen(url, timeout=3))
+    doc = etree.parse(urllib.request.urlopen(url, timeout=3))
 
     # the root element will be a Cluster containing all other clusters
     root = doc.getroot()
@@ -122,7 +122,7 @@ def parseICD(url="http://sgs.salt/xml/salt-tcs-icd.xml"):
                lambda x: safeType(x, str),
                lambda x: safeType(safeType(x, int), bool),
                ]
-    simples = zip(types, lambdas)
+    simples = list(zip(types, lambdas))
 
     # get clusters. first is the root cluster so leave it and take the rest.
     clusters = [c for c in root.iter("Cluster")]
@@ -170,8 +170,8 @@ def parseICD(url="http://sgs.salt/xml/salt-tcs-icd.xml"):
     temp_map = ["2m", "5m", "10m", "15m", "20m", "25m", "30m"]
     try:
         temps = tcs['bms external conditions']['Temperatures']
-        tcs['bms external conditions']['Temperatures'] = dict(zip(temp_map,
-                                                                  temps))
+        tcs['bms external conditions']['Temperatures'] = dict(list(zip(temp_map,
+                                                                  temps)))
     except:
         pass
     return tcs
